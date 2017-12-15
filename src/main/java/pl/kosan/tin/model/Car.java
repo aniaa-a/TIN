@@ -48,4 +48,14 @@ public class Car {
     public void setCarSeats(Integer carSeats) {
         this.carSeats = carSeats;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId=" + carId +
+                ", brand='" + brand + '\'' +
+                ", registrationNum='" + registrationNum + '\'' +
+                ", carSeats=" + carSeats +
+                '}';
+    }
 }
