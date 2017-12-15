@@ -13,12 +13,14 @@ public class UserReservationRespDto {
     String mailUser;
     Date dateTrip;
     String status;
-    Double priceForTrip;
+    Double pricePerPerson;
+    Integer numPeople;
+
 
     public UserReservationRespDto() {
     }
 
-    public UserReservationRespDto(Long reservationId, String carDriver, String city, String user, String identityNumUser, String phoneUser, String mailUser, Date dateTrip, String status, Double priceForTrip) {
+    public UserReservationRespDto(Long reservationId, String carDriver, String city, String user, String identityNumUser, String phoneUser, String mailUser, Integer numPeople, Date dateTrip, String status, Double priceForTrip) {
         this.reservationId = reservationId;
         CarDriver = carDriver;
         this.city = city;
@@ -28,7 +30,8 @@ public class UserReservationRespDto {
         this.mailUser = mailUser;
         this.dateTrip = dateTrip;
         this.status = status;
-        this.priceForTrip = priceForTrip;
+        this.pricePerPerson = pricePerPerson;
+        this.numPeople = numPeople;
     }
 
     public Long getReservationId() {
@@ -103,12 +106,20 @@ public class UserReservationRespDto {
         this.status = status;
     }
 
-    public Double getPriceForTrip() {
-        return priceForTrip;
+    public Double getPricePerPerson() {
+        return pricePerPerson;
     }
 
-    public void setPriceForTrip(Double priceForTrip) {
-        this.priceForTrip = priceForTrip;
+    public void setPricePerPerson(Double pricePerPerson) {
+        this.pricePerPerson = pricePerPerson;
+    }
+
+    public Integer getNumPeople() {
+        return numPeople;
+    }
+
+    public void setNumPeople(Integer numPeople) {
+        this.numPeople = numPeople;
     }
 
     @Override
@@ -123,7 +134,7 @@ public class UserReservationRespDto {
                 ", mailUser='" + mailUser + '\'' +
                 ", dateTrip=" + dateTrip +
                 ", status='" + status + '\'' +
-                ", priceForTrip=" + priceForTrip +
+                ", priceForTrip=" + pricePerPerson +
                 '}';
     }
 }

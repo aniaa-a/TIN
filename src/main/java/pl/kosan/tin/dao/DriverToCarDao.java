@@ -2,8 +2,6 @@ package pl.kosan.tin.dao;
 
 import pl.kosan.tin.model.DriverToCar;
 
-import java.util.List;
-import java.util.Optional;
 
 public interface DriverToCarDao {
 

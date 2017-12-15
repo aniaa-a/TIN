@@ -2,7 +2,11 @@ package pl.kosan.tin.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import pl.kosan.tin.model.User;
 
 import java.util.List;
@@ -14,6 +18,21 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     @Override
     public void insertUser(User user) {
+
+/*
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("agreement_text", agreement.getAgreementText())
+                .addValue("active", agreement.isActive()).addValue("optional_agr", agreement.getOptionalAgreement())
+                .addValue("sorting", agreement.getSorting());
+        try {
+            getNamedParameterJdbcTemplate().update(INSERT_AGREEMENT, mapSqlParameterSource, keyHolder);
+            agreement.setAgreementId((keyHolder.getKey().longValue()));
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }*/
 
     }
 
