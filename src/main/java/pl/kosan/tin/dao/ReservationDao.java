@@ -2,6 +2,7 @@ package pl.kosan.tin.dao;
 
 import pl.kosan.tin.model.Reservation;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,4 +18,8 @@ public interface ReservationDao {
     Reservation findReservationById(Long reservationId);
 
     Optional<List<Reservation>> findAllReservation();
+
+    Optional<List<Reservation>> findReservationByDate( Date dateTrip);
+
+
 }

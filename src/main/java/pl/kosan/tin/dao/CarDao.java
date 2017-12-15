@@ -16,5 +16,7 @@ public interface CarDao {
 
     Car findCarById(Long carId);
 
+    Car findCarByRegistrationNum(String registrationNum);
+
     Optional<List<Car>> findAllCar();
 }

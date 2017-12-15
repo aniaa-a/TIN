@@ -1,11 +1,15 @@
 package pl.kosan.tin.model;
 
+import java.util.Date;
+
 public class Reservation {
 
     Long reservationId;
     Long DriverToCarId;
     Long tripId;
     Long userId;
+    Date dateTrip;
+
 
     public Reservation() {
     }
@@ -47,6 +51,14 @@ public class Reservation {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Date getDateTrip() {
+        return dateTrip;
+    }
+
+    public void setDateTrip(Date dateTrip) {
+        this.dateTrip = dateTrip;
     }
 
     @Override
