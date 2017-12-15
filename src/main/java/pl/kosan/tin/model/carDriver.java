@@ -1,6 +1,6 @@
 package pl.kosan.tin.model;
 
-public class carDriver {
+public class CarDriver {
 
     Long carDriverId;
     String name;
@@ -9,10 +9,10 @@ public class carDriver {
     String IdentityNum;
     Double salary;
 
-    public carDriver() {
+    public CarDriver() {
     }
 
-    public carDriver(Long carDriverId, String name, String surname, String pesel, String identityNum, Double salary) {
+    public CarDriver(Long carDriverId, String name, String surname, String pesel, String identityNum, Double salary) {
         this.carDriverId = carDriverId;
         this.name = name;
         this.surname = surname;
@@ -71,7 +71,7 @@ public class carDriver {
 
     @Override
     public String toString() {
-        return "carDriver{" +
+        return "CarDriver{" +
                 "carDriverId=" + carDriverId +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
