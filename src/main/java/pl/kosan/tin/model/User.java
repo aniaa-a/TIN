@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class User {
 
-    Long idUser;
-    String name;
-    String surname;
-    String identityNum;
-    String email;
-    String phone;
-    String password;  //to do hash
+    private Long idUser;
+    private String name;
+    private String surname;
+    private String identityNum;
+    private String email;
+    private String phone;
+    private String password;  //to do hash
 
     public User() {
     }

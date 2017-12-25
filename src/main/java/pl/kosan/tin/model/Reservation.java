@@ -4,11 +4,12 @@ import java.util.Date;
 
 public class Reservation {
 
-    Long reservationId;
-    Long DriverToCarId;
-    Long tripId;
-    Long userId;
-    Date dateTrip;
+    private Long reservationId;
+    private Long DriverToCarId;
+    private Long tripId;
+    private Long userId;
+    private Date dateTrip;
+    private Integer numOfPeople;
 
 
     public Reservation() {
@@ -61,6 +62,14 @@ public class Reservation {
         this.dateTrip = dateTrip;
     }
 
+    public Integer getNumOfPeople() {
+        return numOfPeople;
+    }
+
+    public void setNumOfPeople(Integer numOfPeople) {
+        this.numOfPeople = numOfPeople;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -68,6 +77,8 @@ public class Reservation {
                 ", DriverToCarId=" + DriverToCarId +
                 ", tripId=" + tripId +
                 ", userId=" + userId +
+                ", date=" + dateTrip +
+                ", numOfPeople=" + numOfPeople +
                 '}';
     }
 }

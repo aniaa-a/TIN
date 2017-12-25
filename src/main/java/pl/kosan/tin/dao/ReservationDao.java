@@ -1,5 +1,6 @@
 package pl.kosan.tin.dao;
 
+import pl.kosan.tin.model.DriverToCar;
 import pl.kosan.tin.model.Reservation;
 
 import java.util.Date;
@@ -20,6 +21,8 @@ public interface ReservationDao {
     Optional<List<Reservation>> findAllReservation();
 
     Optional<List<Reservation>> findReservationByDate( Date dateTrip);
+
+    void addCarDriver(DriverToCar driverToCar);
 
 
 }

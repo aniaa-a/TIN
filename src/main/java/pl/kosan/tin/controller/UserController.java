@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping(value = "/tin")
+@RequestMapping(value = "/user")
 public class UserController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(path = "/user/log", method = RequestMethod.GET)
+    @RequestMapping(path = "/log", method = RequestMethod.GET)
     public User logInUser(HttpServletRequest req, @RequestParam(defaultValue = "email") String email,
                           @RequestParam(defaultValue = "password") String password) {
         HttpSession session = req.getSession();
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(path = "/user/logged", method = RequestMethod.GET)
+    @RequestMapping(path = "/isLogged", method = RequestMethod.GET)
     public boolean logged(HttpServletRequest req, @RequestParam(defaultValue = "email") String email) {
 
         HttpSession session = req.getSession();

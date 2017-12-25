@@ -25,6 +25,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
             "VALUES(:name, :surname, :identity_document, :email, :phone, :password)";
     private final static String FIND_USER_BY_ID = "SELECT id_user, name, surname, identity_document, email, phone from tin_user where id_user = :id_user";
     private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, name, surname, identity_document, email, phone, password from tin_user where email = :email AND password = :password";
+    private final static String FIND_USER_BY_MAIL = "SELECT id_user, name, surname, identity_document, email, phone, password from tin_user where email = :email";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -95,6 +96,32 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
         mapSqlParameterSource.addValue("email", email).addValue("password", password);
         try {
             return getNamedParameterJdbcTemplate().queryForObject(FIND_USER_BY_MAIL_AND_PASS, mapSqlParameterSource,
+                    (rs, rowNum) -> {
+                        User user = new User();
+                        user.setIdUser(rs.getLong("id_user"));
+                        user.setName(rs.getString("name"));
+                        user.setSurname(rs.getString("surname"));
+                        user.setIdentityNum(rs.getString("identity_document"));
+                        user.setEmail(rs.getString("email"));
+                        user.setPhone(rs.getString("phone"));
+                        user.setPassword(rs.getString("password"));
+                        return user;
+                    });
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public User findUserByMail(String email) {
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("email", email);
+        try {
+            return getNamedParameterJdbcTemplate().queryForObject(FIND_USER_BY_MAIL, mapSqlParameterSource,
                     (rs, rowNum) -> {
                         User user = new User();
                         user.setIdUser(rs.getLong("id_user"));
