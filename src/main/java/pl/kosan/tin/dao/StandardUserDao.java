@@ -16,10 +16,13 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardUserDao.class);
 
+    private final static String INSERT_USER = "INSERT INTO tin_user(name, surname, identity_document, email, phone)" +
+            "VALUES(:name, :surname, :identity_document, :email, :phone)";
+
     @Override
     public void insertUser(User user) {
 
-/*
+
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
@@ -32,7 +35,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage(), e);
             throw e;
-        }*/
+        }
 
     }
 
