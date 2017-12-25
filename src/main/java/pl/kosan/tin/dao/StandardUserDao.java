@@ -2,22 +2,34 @@ package pl.kosan.tin.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import pl.kosan.tin.model.User;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class StandardUserDao extends NamedParameterJdbcDaoSupport implements UserDao {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardUserDao.class);
 
-    private final static String INSERT_USER = "INSERT INTO tin_user(name, surname, identity_document, email, phone)" +
-            "VALUES(:name, :surname, :identity_document, :email, :phone)";
+    private final static String INSERT_USER = "INSERT INTO tin_user(name, surname, identity_document, email, phone, password)" +
+            "VALUES(:name, :surname, :identity_document, :email, :phone, :password)";
+    private final static String FIND_USER_BY_ID = "SELECT id_user, name, surname, identity_document, email, phone from tin_user where id_user = :id_user";
+    private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, name, surname, identity_document, email, phone, password from tin_user where email = :email AND password = :password";
+
+    @Autowired
+    public void setDs(DataSource dataSource) {
+        this.setDataSource(dataSource);
+    }
 
     @Override
     public void insertUser(User user) {
@@ -26,12 +38,13 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("agreement_text", agreement.getAgreementText())
-                .addValue("active", agreement.isActive()).addValue("optional_agr", agreement.getOptionalAgreement())
-                .addValue("sorting", agreement.getSorting());
+        mapSqlParameterSource.addValue("name", user.getName())
+                .addValue("surname", user.getSurname()).addValue("identity_document", user.getIdentityNum())
+                .addValue("email", user.getEmail()).addValue("phone", user.getPhone())
+                .addValue("password", user.getPassword());
         try {
-            getNamedParameterJdbcTemplate().update(INSERT_AGREEMENT, mapSqlParameterSource, keyHolder);
-            agreement.setAgreementId((keyHolder.getKey().longValue()));
+            getNamedParameterJdbcTemplate().update(INSERT_USER, mapSqlParameterSource, keyHolder);
+            user.setIdUser((keyHolder.getKey().longValue()));
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage(), e);
             throw e;
@@ -51,7 +64,55 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     @Override
     public User findUserById(Long userId) {
-        return null;
+
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("id_user", userId);
+        try {
+            return getNamedParameterJdbcTemplate().queryForObject(FIND_USER_BY_ID, mapSqlParameterSource,
+                    (rs, rowNum) -> {
+                        User user = new User();
+                        user.setIdUser(rs.getLong("id_user"));
+                        user.setName(rs.getString("name"));
+                        user.setSurname(rs.getString("surname"));
+                        user.setIdentityNum(rs.getString("identity_document"));
+                        user.setEmail(rs.getString("email"));
+                        user.setPhone(rs.getString("phone"));
+
+                        return user;
+                    });
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public User findUserByMailAndPass(String email, String password) {
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("email", email).addValue("password", password);
+        try {
+            return getNamedParameterJdbcTemplate().queryForObject(FIND_USER_BY_MAIL_AND_PASS, mapSqlParameterSource,
+                    (rs, rowNum) -> {
+                        User user = new User();
+                        user.setIdUser(rs.getLong("id_user"));
+                        user.setName(rs.getString("name"));
+                        user.setSurname(rs.getString("surname"));
+                        user.setIdentityNum(rs.getString("identity_document"));
+                        user.setEmail(rs.getString("email"));
+                        user.setPhone(rs.getString("phone"));
+                        user.setPassword(rs.getString("password"));
+                        return user;
+                    });
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override

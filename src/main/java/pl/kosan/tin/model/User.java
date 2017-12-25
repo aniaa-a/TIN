@@ -10,6 +10,7 @@ public class User {
     String identityNum;
     String email;
     String phone;
+    String password;  //to do hash
 
     public User() {
     }
@@ -71,6 +72,18 @@ public class User {
         this.phone = phone;
     }
 
+    public String getPassword() {
+
+        //to do hash
+        return password;
+    }
+
+    public void setPassword(String password) {
+
+        //to do hash
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -80,6 +93,7 @@ public class User {
                 ", identityNum='" + identityNum + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
