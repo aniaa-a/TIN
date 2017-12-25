@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.kosan.tin.model.User;
 import pl.kosan.tin.services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping(value = "/tin")
 public class UserController {
@@ -26,9 +29,30 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/user/log", method = RequestMethod.GET)
-    public User logInUser(@RequestParam(defaultValue = "email") String email,
-                                                                @RequestParam(defaultValue = "password") String password) {
+    public User logInUser(HttpServletRequest req, @RequestParam(defaultValue = "email") String email,
+                          @RequestParam(defaultValue = "password") String password) {
+        HttpSession session = req.getSession();
 
-        return userService.findUserByMailAndPass(email, password);
+        User user = userService.findUserByMailAndPass(email, password);
+        if (user != null) {
+            session.setAttribute("user", email);
+
+        }
+        return user;
+
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/user/logged", method = RequestMethod.GET)
+    public boolean logged(HttpServletRequest req, @RequestParam(defaultValue = "email") String email) {
+
+        HttpSession session = req.getSession();
+        String user = (String) session.getAttribute(email);
+        if (user != null)
+            return true;
+        else
+            return false;
+    }
+
+
 }
