@@ -1,7 +1,48 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+.wrapper {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 60px;
+}
+
 .navbar {
-    overflow: hidden;
     background-color: #333;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
+}
+
+.navbar::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.sign-out,
+.nav-access {
+    float: right;
+}
+
+.sign-out {
+    position: relative;
+}
+
+.user-login {
+    position: absolute;
+    white-space: nowrap;
+    top: -27px;
+    right: 16px;
 }
 
 .navbar a {
@@ -11,6 +52,13 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+}
+
+#sign-out {
+    cursor: pointer;
+    color: white;
+    float: left;
+    padding: 14px 16px;
 }
 
 .dropdown {
@@ -27,7 +75,9 @@
     background-color: inherit;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover,
+.dropdown:hover .dropbtn,
+#sign-out:hover {
     background-color: red;
 }
 
@@ -36,7 +86,7 @@
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -56,20 +106,43 @@
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
 footer {
-  background-color: #F5F5DC;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    padding: 0 20px;
+    line-height: 60px;
+    background-color: #F5F5DC;
 }
 
-.trip img {
+.bodyTrip {
+    padding: 20px;
+}
 
-    display: block;
-    margin: 0 auto;
+.trip-background {
+    background: center/cover no-repeat;
     height: 350px;
-    width: 80%;
 }
 
-.body {
- padding: 14px 14px;
+.bg-cracow {
+    background-image: url('../images/krakow.jpg');
 }
 
+.bg-warsaw {
+    background-image: url('../images/warszawa.jpg');
+}
+
+.bg-zakopane {
+    background-image: url('../images/zakopane.jpg');
+}
+
+.form-login {
+    width: 600px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 50px 10px;
+}
 
