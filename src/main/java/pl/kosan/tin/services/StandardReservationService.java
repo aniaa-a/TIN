@@ -22,7 +22,7 @@ public class StandardReservationService implements ReservationService {
 
         Reservation res = new Reservation();
         User user = userDao.findUserByMail(reservation.getMailUser());
-        Trip trip
+       // Trip trip
         res.setUserId(user.getIdUser());
 
 

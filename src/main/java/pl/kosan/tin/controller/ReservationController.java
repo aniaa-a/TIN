@@ -18,7 +18,7 @@ public class ReservationController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ReservationController.class);
 
-    @Autowired
+    /*@Autowired
     ReservationService reservationService;
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -27,7 +27,7 @@ public class ReservationController {
 
         reservationService.setReservation(reservation);
     }
-
+*/
 
 
 
