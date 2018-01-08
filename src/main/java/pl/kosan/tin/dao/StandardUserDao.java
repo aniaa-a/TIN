@@ -21,7 +21,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardUserDao.class);
 
-    private final static String INSERT_USER = "INSERT INTO tin_user(name, surname, identity_document, email, phone, password)" +
+    private final static String INSERT_USER = "INSERT INTO tin_user(user_name, user_surname, identity_document, email, phone, password)" +
             "VALUES(:name, :surname, :identity_document, :email, :phone, :password)";
     private final static String FIND_USER_BY_ID = "SELECT id_user, name, surname, identity_document, email, phone from tin_user where id_user = :id_user";
     private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, name, surname, identity_document, email, phone, password from tin_user where email = :email AND password = :password";
@@ -50,6 +50,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
             LOGGER.error(e.getMessage(), e);
             throw e;
         }
+
 
     }
 

@@ -1,5 +1,6 @@
 package pl.kosan.tin.dao;
 
+import org.springframework.stereotype.Repository;
 import pl.kosan.tin.model.User;
 
 import java.util.List;
