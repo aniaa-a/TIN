@@ -23,9 +23,9 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     private final static String INSERT_USER = "INSERT INTO tin_user(user_name, user_surname, identity_document, email, phone, password)" +
             "VALUES(:name, :surname, :identity_document, :email, :phone, :password)";
-    private final static String FIND_USER_BY_ID = "SELECT id_user, name, surname, identity_document, email, phone from tin_user where id_user = :id_user";
-    private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, name, surname, identity_document, email, phone, password from tin_user where email = :email AND password = :password";
-    private final static String FIND_USER_BY_MAIL = "SELECT id_user, name, surname, identity_document, email, phone, password from tin_user where email = :email";
+    private final static String FIND_USER_BY_ID = "SELECT id_user, user_name, user_surname, identity_document, email, phone from tin_user where id_user = :id_user";
+    private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password from tin_user where email = :email AND password = :password";
+    private final static String FIND_USER_BY_MAIL = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password from tin_user where email = :email";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -74,8 +74,8 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
                     (rs, rowNum) -> {
                         User user = new User();
                         user.setIdUser(rs.getLong("id_user"));
-                        user.setName(rs.getString("name"));
-                        user.setSurname(rs.getString("surname"));
+                        user.setName(rs.getString("user_name"));
+                        user.setSurname(rs.getString("user_surname"));
                         user.setIdentityNum(rs.getString("identity_document"));
                         user.setEmail(rs.getString("email"));
                         user.setPhone(rs.getString("phone"));
@@ -100,8 +100,8 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
                     (rs, rowNum) -> {
                         User user = new User();
                         user.setIdUser(rs.getLong("id_user"));
-                        user.setName(rs.getString("name"));
-                        user.setSurname(rs.getString("surname"));
+                        user.setName(rs.getString("user_name"));
+                        user.setSurname(rs.getString("user_surname"));
                         user.setIdentityNum(rs.getString("identity_document"));
                         user.setEmail(rs.getString("email"));
                         user.setPhone(rs.getString("phone"));
@@ -126,8 +126,8 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
                     (rs, rowNum) -> {
                         User user = new User();
                         user.setIdUser(rs.getLong("id_user"));
-                        user.setName(rs.getString("name"));
-                        user.setSurname(rs.getString("surname"));
+                        user.setName(rs.getString("user_name"));
+                        user.setSurname(rs.getString("user_surname"));
                         user.setIdentityNum(rs.getString("identity_document"));
                         user.setEmail(rs.getString("email"));
                         user.setPhone(rs.getString("phone"));

@@ -10,6 +10,7 @@ public class Reservation {
     private Long userId;
     private Date dateTrip;
     private Integer numOfPeople;
+    private ReservationStatus status;
 
 
     public Reservation() {
@@ -68,6 +69,14 @@ public class Reservation {
 
     public void setNumOfPeople(Integer numOfPeople) {
         this.numOfPeople = numOfPeople;
+    }
+
+    public ReservationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ReservationStatus status) {
+        this.status = status;
     }
 
     @Override

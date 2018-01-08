@@ -1,18 +1,20 @@
 package pl.kosan.tin.dto;
 
+import pl.kosan.tin.model.ReservationStatus;
+
 import java.util.Date;
 
 public class UserReservationRespDto {
 
     Long reservationId;
-    String CarDriver;
+    String carDriver;
     String city;
     String user;
     String identityNumUser;
     String phoneUser;
     String mailUser;
     Date dateTrip;
-    String status;
+    ReservationStatus status;
     Double pricePerPerson;
     Integer numPeople;
 
@@ -20,9 +22,9 @@ public class UserReservationRespDto {
     public UserReservationRespDto() {
     }
 
-    public UserReservationRespDto(Long reservationId, String carDriver, String city, String user, String identityNumUser, String phoneUser, String mailUser, Integer numPeople, Date dateTrip, String status, Double priceForTrip) {
+    public UserReservationRespDto(Long reservationId, String carDriver, String city, String user, String identityNumUser, String phoneUser, String mailUser, Integer numPeople, Date dateTrip, ReservationStatus status, Double priceForTrip) {
         this.reservationId = reservationId;
-        CarDriver = carDriver;
+        this.carDriver = carDriver;
         this.city = city;
         this.user = user;
         this.identityNumUser = identityNumUser;
@@ -43,11 +45,11 @@ public class UserReservationRespDto {
     }
 
     public String getCarDriver() {
-        return CarDriver;
+        return carDriver;
     }
 
     public void setCarDriver(String carDriver) {
-        CarDriver = carDriver;
+        carDriver = carDriver;
     }
 
     public String getCity() {
@@ -98,11 +100,11 @@ public class UserReservationRespDto {
         this.dateTrip = dateTrip;
     }
 
-    public String getStatus() {
+    public ReservationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReservationStatus status) {
         this.status = status;
     }
 
@@ -126,7 +128,7 @@ public class UserReservationRespDto {
     public String toString() {
         return "UserReservationRespDto{" +
                 "reservationId=" + reservationId +
-                ", CarDriver='" + CarDriver + '\'' +
+                ", CarDriver='" + carDriver + '\'' +
                 ", city='" + city + '\'' +
                 ", user='" + user + '\'' +
                 ", identityNumUser='" + identityNumUser + '\'' +
