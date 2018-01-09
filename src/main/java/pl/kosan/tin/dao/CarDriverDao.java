@@ -13,7 +13,7 @@ public interface CarDriverDao {
 
     void deleteCarById(Long carDriverId);
 
-    CarDriver findCarById(Long carDriverId);
+    CarDriver findDriverByPesel(String pesel);
 
-    Optional<List<CarDriver>> findAllCar();
+    Optional<List<CarDriver>> findAllCarDriver();
 }

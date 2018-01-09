@@ -21,10 +21,13 @@ public class StandardReservationService implements ReservationService {
     public void setReservation(UserReservationRespDto reservation) {
 
         Reservation res = new Reservation();
-        User user = userDao.findUserByMail(reservation.getMailUser());
-       // Trip trip
-        res.setUserId(user.getIdUser());
 
+
+        res.setUserId(reservation.getUserId());
+        res.setTripId(reservation.getTripId());
+        res.setDateTrip(reservation.getDateTrip());
+        res.setNumOfPeople(reservation.getNumPeople());
+        res.setStatus(reservation.getStatus());
 
         reservationDao.insertReservation(res);
     }

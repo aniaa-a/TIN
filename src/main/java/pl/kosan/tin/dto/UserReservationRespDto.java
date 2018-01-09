@@ -6,34 +6,20 @@ import java.util.Date;
 
 public class UserReservationRespDto {
 
-    Long reservationId;
-    String carDriver;
-    String city;
-    String user;
-    String identityNumUser;
-    String phoneUser;
-    String mailUser;
-    Date dateTrip;
-    ReservationStatus status;
-    Double pricePerPerson;
-    Integer numPeople;
+    private Long reservationId;
+    private Long tripId;
+    private Long userId;
+    private String city;
+    private String phoneUser;
+    private String mailUser;
+    private Date dateTrip;
+    private ReservationStatus status;
+    private Double pricePerPerson;
+    private Double price;
+    private Integer numPeople;
 
 
     public UserReservationRespDto() {
-    }
-
-    public UserReservationRespDto(Long reservationId, String carDriver, String city, String user, String identityNumUser, String phoneUser, String mailUser, Integer numPeople, Date dateTrip, ReservationStatus status, Double priceForTrip) {
-        this.reservationId = reservationId;
-        this.carDriver = carDriver;
-        this.city = city;
-        this.user = user;
-        this.identityNumUser = identityNumUser;
-        this.phoneUser = phoneUser;
-        this.mailUser = mailUser;
-        this.dateTrip = dateTrip;
-        this.status = status;
-        this.pricePerPerson = pricePerPerson;
-        this.numPeople = numPeople;
     }
 
     public Long getReservationId() {
@@ -44,36 +30,12 @@ public class UserReservationRespDto {
         this.reservationId = reservationId;
     }
 
-    public String getCarDriver() {
-        return carDriver;
-    }
-
-    public void setCarDriver(String carDriver) {
-        carDriver = carDriver;
-    }
-
     public String getCity() {
         return city;
     }
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getIdentityNumUser() {
-        return identityNumUser;
-    }
-
-    public void setIdentityNumUser(String identityNumUser) {
-        this.identityNumUser = identityNumUser;
     }
 
     public String getPhoneUser() {
@@ -116,6 +78,14 @@ public class UserReservationRespDto {
         this.pricePerPerson = pricePerPerson;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public Integer getNumPeople() {
         return numPeople;
     }
@@ -124,19 +94,34 @@ public class UserReservationRespDto {
         this.numPeople = numPeople;
     }
 
+    public Long getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(Long tripId) {
+        this.tripId = tripId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "UserReservationRespDto{" +
                 "reservationId=" + reservationId +
-                ", CarDriver='" + carDriver + '\'' +
                 ", city='" + city + '\'' +
-                ", user='" + user + '\'' +
-                ", identityNumUser='" + identityNumUser + '\'' +
                 ", phoneUser='" + phoneUser + '\'' +
                 ", mailUser='" + mailUser + '\'' +
                 ", dateTrip=" + dateTrip +
-                ", status='" + status + '\'' +
-                ", priceForTrip=" + pricePerPerson +
+                ", status=" + status +
+                ", pricePerPerson=" + pricePerPerson +
+                ", price=" + price +
+                ", numPeople=" + numPeople +
                 '}';
     }
 }

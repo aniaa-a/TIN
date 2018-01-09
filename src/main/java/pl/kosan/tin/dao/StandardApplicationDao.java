@@ -30,13 +30,11 @@ public class StandardApplicationDao extends NamedParameterJdbcDaoSupport impleme
             return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_FOR_USER, mapSqlParameterSource, (rs, rowNum) -> {
                 UserReservationRespDto userReservationRespDto = new UserReservationRespDto();
                 userReservationRespDto.setReservationId(rs.getLong("id_reservation"));
-                userReservationRespDto.setCarDriver(rs.getString("driver"));
                 userReservationRespDto.setCity(rs.getString("city"));
                 userReservationRespDto.setDateTrip(rs.getDate("date_trip"));
-                userReservationRespDto.setIdentityNumUser(rs.getString("identity_document"));
                 userReservationRespDto.setMailUser(rs.getString("email"));
                 userReservationRespDto.setPhoneUser(rs.getString("phone"));
-                userReservationRespDto.setPricePerPerson(rs.getDouble(""));
+              //  userReservationRespDto.setPricePerPerson(rs.getDouble(""));
                 return userReservationRespDto;
 
             }));

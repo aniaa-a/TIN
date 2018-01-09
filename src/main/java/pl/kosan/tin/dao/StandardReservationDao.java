@@ -25,6 +25,8 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     private final static String INSERT_RESERVATION = "INSERT INTO tin_reservation(id_trip, id_user, date_trip, status, numb_people)" +
             "VALUES(:id_trip, :id_user, :date_trip, :status, :numb_people)";
 
+   // private final static String ADD_CARDRIVER = ""
+
     @Autowired
     public void setDs(DataSource dataSource) {
         this.setDataSource(dataSource);

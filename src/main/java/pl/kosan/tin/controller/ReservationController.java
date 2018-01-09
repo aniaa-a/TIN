@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import pl.kosan.tin.dto.UserReservationRespDto;
 import pl.kosan.tin.model.Reservation;
 import pl.kosan.tin.services.ReservationService;
 
@@ -18,18 +19,17 @@ public class ReservationController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ReservationController.class);
 
-    /*@Autowired
+    @Autowired
     ReservationService reservationService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/book")
-    public void setReservation(Reservation reservation) {
+    public void setReservation(UserReservationRespDto reservation) {
 
         reservationService.setReservation(reservation);
 
-
     }
-*/
+
 
 
 
