@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import pl.kosan.tin.model.Car;
+import pl.kosan.tin.model.CarDriver;
 import pl.kosan.tin.model.User;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class StandardCarDao extends NamedParameterJdbcDaoSupport implements CarD
 
 
     private final static String FIND_CAR_BY_REGISTRATION_NUM= "SELECT id_car, brand, registration_num, car_seats from tin_car WHERE registration_num = :registration_num";
+    private final static String FIND_ALL_CAR = "SELECT id_car, brand, registration_num, car_seats from tin_car";
 
     @Override
     public void insertCar(Car car) {
@@ -67,6 +69,21 @@ public class StandardCarDao extends NamedParameterJdbcDaoSupport implements CarD
 
     @Override
     public Optional<List<Car>> findAllCar() {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_ALL_CAR,
+                    new MapSqlParameterSource(), (rs, rowNum) -> {
+                        Car car = new Car();
+                        car.setCarId(rs.getLong("id_car"));
+                        car.setBrand(rs.getString("brand"));
+                        car.setRegistrationNum(rs.getString("registration_num"));
+                        car.setCarSeats(rs.getInt("car_seats"));
+                        return car;
+                    }));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
     }
 }
