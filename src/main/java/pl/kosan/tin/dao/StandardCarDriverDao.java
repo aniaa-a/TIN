@@ -2,6 +2,7 @@ package pl.kosan.tin.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import pl.kosan.tin.model.Car;
 import pl.kosan.tin.model.CarDriver;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,11 @@ public class StandardCarDriverDao extends NamedParameterJdbcDaoSupport implement
             "FROM tin_cardriver WHERE pesel = :pesel";
 
     private final static String FIND_ALL_DRIVER = "SELECT id_cardriver, name, surname, pesel , identity_document, salary FROM tin_cardriver";
+
+    @Autowired
+    public void setDs(DataSource dataSource) {
+        this.setDataSource(dataSource);
+    }
 
     @Override
     public void insertCar(CarDriver carDriver) {

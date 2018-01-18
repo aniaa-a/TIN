@@ -3,6 +3,7 @@ package pl.kosan.tin.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.kosan.tin.dao.ReservationDao;
+import pl.kosan.tin.dao.TripDao;
 import pl.kosan.tin.dao.UserDao;
 import pl.kosan.tin.dto.UserReservationRespDto;
 import pl.kosan.tin.model.Reservation;
@@ -17,14 +18,19 @@ public class StandardReservationService implements ReservationService {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    TripDao tripDao;
+
+
     @Override
     public void setReservation(UserReservationRespDto reservation) {
 
         Reservation res = new Reservation();
 
-
-        res.setUserId(reservation.getUserId());
-        res.setTripId(reservation.getTripId());
+        Long userId = userDao.findUserByMail(reservation.getMailUser()).getIdUser();
+        res.setUserId(userId);
+        Long tripId = tripDao.findTripByCity(reservation.getCity()).getTripId();
+        res.setTripId(tripId);
         res.setDateTrip(reservation.getDateTrip());
         res.setNumOfPeople(reservation.getNumPeople());
         res.setStatus(reservation.getStatus());

@@ -22,8 +22,8 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardReservationDao.class);
 
-    private final static String INSERT_RESERVATION = "INSERT INTO tin_reservation(id_trip, id_user, date_trip, status, numb_people)" +
-            "VALUES(:id_trip, :id_user, :date_trip, :status, :numb_people)";
+    private final static String INSERT_RESERVATION = "INSERT INTO tin_reservation(id_trip, id_user, date_trip, status, num_people)" +
+            "VALUES(:id_trip, :id_user, :date_trip, :status, :num_people)";
 
    // private final static String ADD_CARDRIVER = ""
 
@@ -41,7 +41,7 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
         mapSqlParameterSource.addValue("id_trip", reservation.getTripId())
                 .addValue("id_user", reservation.getUserId()).addValue("date_trip", reservation.getDateTrip())
                 .addValue("status", reservation.getStatus())
-                .addValue("numb_people", reservation.getNumOfPeople());
+                .addValue("num_people", reservation.getNumOfPeople());
         try {
             getNamedParameterJdbcTemplate().update(INSERT_RESERVATION, mapSqlParameterSource, keyHolder);
             reservation.setReservationId(keyHolder.getKey().longValue());

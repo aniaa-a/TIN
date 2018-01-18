@@ -10,6 +10,7 @@ public class Reservation {
     private Long userId;
     private Date dateTrip;
     private Integer numOfPeople;
+    private Double price;
     private ReservationStatus status;
 
 
@@ -78,6 +79,15 @@ public class Reservation {
     public void setStatus(ReservationStatus status) {
         this.status = status;
     }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
 
     @Override
     public String toString() {

@@ -6,9 +6,7 @@ import java.util.Date;
 
 public class UserReservationRespDto {
 
-    private Long reservationId;
-    private Long tripId;
-    private Long userId;
+
     private String city;
     private String phoneUser;
     private String mailUser;
@@ -22,13 +20,6 @@ public class UserReservationRespDto {
     public UserReservationRespDto() {
     }
 
-    public Long getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
-    }
 
     public String getCity() {
         return city;
@@ -82,8 +73,8 @@ public class UserReservationRespDto {
         return price;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPrice() {
+        this.price = pricePerPerson * numPeople;
     }
 
     public Integer getNumPeople() {
@@ -94,26 +85,11 @@ public class UserReservationRespDto {
         this.numPeople = numPeople;
     }
 
-    public Long getTripId() {
-        return tripId;
-    }
 
-    public void setTripId(Long tripId) {
-        this.tripId = tripId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     @Override
     public String toString() {
         return "UserReservationRespDto{" +
-                "reservationId=" + reservationId +
                 ", city='" + city + '\'' +
                 ", phoneUser='" + phoneUser + '\'' +
                 ", mailUser='" + mailUser + '\'' +

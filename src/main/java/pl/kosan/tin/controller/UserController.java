@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.kosan.tin.dto.UserResponseDto;
 import pl.kosan.tin.model.User;
 import pl.kosan.tin.services.UserService;
 
@@ -22,23 +23,26 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/register")
-    public void RegisterUser(User user) {
+    public void RegisterUser(@RequestBody User user) {
 
         userService.registerUser(user);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/log", method = RequestMethod.GET)
-    public User logInUser(HttpServletRequest req, @RequestParam(defaultValue = "email") String email,
-                          @RequestParam(defaultValue = "password") String password) {
+    public UserResponseDto logInUser(HttpServletRequest req, @RequestParam(defaultValue = "email") String email,
+                                     @RequestParam(defaultValue = "password") String password) {
         HttpSession session = req.getSession();
-
+        UserResponseDto userResponseDto = new UserResponseDto();
         User user = userService.findUserByMailAndPass(email, password);
         if (user != null) {
             session.setAttribute("user", email);
-
+            userResponseDto.setUser(user);
+            userResponseDto.setStatus("ok");
+        } else {
+            userResponseDto.setStatus("nie znaleziono użytkownika");
         }
-        return user;
+        return userResponseDto;
 
     }
 

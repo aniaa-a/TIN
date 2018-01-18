@@ -15,7 +15,7 @@ public interface TripDao {
 
     void deleteTripById(Long TripId);
 
-    Trip findTripById(Long TripId);
+    Trip findTripByCity(String city);
 
     Optional<List<Trip>> findAllTrip();
 }

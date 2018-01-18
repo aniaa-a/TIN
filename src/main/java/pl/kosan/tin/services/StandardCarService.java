@@ -1,6 +1,7 @@
 package pl.kosan.tin.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pl.kosan.tin.dao.CarDao;
 import pl.kosan.tin.model.Car;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class StandardCarService implements CarService {
 
     @Autowired

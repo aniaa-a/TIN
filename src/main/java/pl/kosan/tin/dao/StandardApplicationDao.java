@@ -23,7 +23,7 @@ public class StandardApplicationDao extends NamedParameterJdbcDaoSupport impleme
     @Override
     public Optional<List<UserReservationRespDto>> findReservationForUser(String email) {
 
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+       /* MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("email", email);
         try {
 
@@ -44,6 +44,7 @@ public class StandardApplicationDao extends NamedParameterJdbcDaoSupport impleme
             LOGGER.error(e.getMessage(), e);
             throw e;
         }
-
+*/
+        return null;
     }
 }
