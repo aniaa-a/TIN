@@ -1,79 +1,104 @@
-(function(){
-    const navRoutes = {
-        home: 'templates/home.html',
-        cracow: 'templates/krakow.html',
-        zakopane: 'templates/zakopane.html',
-        warsaw: 'templates/warszawa.html',
-        contact: 'templates/contact.html',
-        signIn: 'templates/logowanie.html'
-    };
+ (function(){
+     const navRoutes = {
+         home: 'templates/home.html',
+         cracow: 'templates/krakow.html',
+         zakopane: 'templates/zakopane.html',
+         warsaw: 'templates/warszawa.html',
+         contact: 'templates/contact.html',
+         signIn: 'templates/logowanie.html'
+     };
 
-    let container = document.getElementById('container'),
-        isLogged = false;
+     let container = document.getElementById('container'),
+         isLogged = false;
 
-    bindEvents();
-    setNavigation();
+     bindEvents();
+     setNavigation();
 
-    function bindEvents() {
-        let signOutBtn = document.getElementById('sign-out');
+     function bindEvents() {
+         let signOutBtn = document.getElementById('sign-out'),
+             signUpLink = document.getElementById('signUpLink');
 
-        signOutBtn.onclick = function() {
-            isLogged = false;
-            setNavigation();
-        };
+         signUpLink.onclick = function() {
+             localStorage.setItem('lastLocation', location.hash);
+         };
 
-        document.body.onclick = function(event) {
-            if (event.target.id === 'reservationButton') {
-                alert("Rezerwacja dla: " + event.target.dataset.reservation);
-            } else if (event.target.id === 'sign-in-submit') {
-                signIn(event);
-            }
-        };
+         signOutBtn.onclick = function() {
+             isLogged = false;
+             setNavigation();
+         };
 
-        window.onhashchange = function() {
-            if (location.hash === '') {
-                location.hash = 'home';
-            }
-            ajax(navRoutes[location.hash.substring(1)], replaceHtml);
-        };
+         document.body.onclick = function(event) {
+             if (event.target.id === 'reservationButton') {
+                 alert("Rezerwacja dla: " + event.target.dataset.reservation);
+             } else if (event.target.id === 'sign-in-submit') {
+                 signIn(event);
+             }
+         };
 
-        window.dispatchEvent(new Event('hashchange'));
-    }
+         window.onhashchange = function() {
+             if (location.hash === '') {
+                 location.hash = 'home';
+             }
+             ajax(navRoutes[location.hash.substring(1)], replaceHtml);
+         };
 
-    function ajax(url, callback) {
-        let xhr = new XMLHttpRequest();
+         window.dispatchEvent(new Event('hashchange'));
+     }
 
-        xhr.onload = function() {
-            if (this.status === 200) {
-                callback(this.response);
-            }
-        };
+     function ajax(url, callback, data) {
+         let xhr = new XMLHttpRequest();
 
-        xhr.open('GET', url, true);
-        xhr.send();
-    }
+         xhr.onload = function() {
+             if (this.status === 200) {
+                 callback(this.response);
+             }
+         };
 
-    function replaceHtml(data) {
-        container.innerHTML = data;
-    }
+         xhr.open('GET', url, true);
+         xhr.send(data);
+     }
 
-    function setNavigation() {
-        let navAccess = document.querySelectorAll('.nav-access')[0],
-            navSignOut = document.querySelectorAll('.sign-out')[0];
+     function replaceHtml(data) {
+         container.innerHTML = data;
+     }
 
-        navAccess.hidden = isLogged;
-        navSignOut.hidden = !isLogged;
-    }
+     function setNavigation() {
+         let navAccess = document.querySelectorAll('.nav-access')[0],
+             navSignOut = document.querySelectorAll('.sign-out')[0];
 
-    function signIn(event) {
-        let emailInput = document.querySelectorAll('input[name=email]')[0],
-            login = document.querySelectorAll('.user-login')[0];
+         navAccess.hidden = isLogged;
+         navSignOut.hidden = !isLogged;
+     }
 
-        event.preventDefault();
-        isLogged = true;
-        login.innerHTML = emailInput.value;
-        setNavigation();
-        location.hash = '#home';
-    }
+     function signIn(event) {
+         let loginForm = document.querySelectorAll('.form-login')[0];
 
-})();
+         event.preventDefault();
+
+         // todo: jezeli uzytkownik nie istnieje backend musi zwrocic kod bledu lub status (musimy to dogadac)
+         TIN.Http.signIn(loginForm.email.value, loginForm.password.value)
+             .then(signInSuccessHandler)
+             .catch(function(err) {
+                 alert('Błędny login lub hasło. Spróbuj jescze raz');
+                 console.error(err);
+             })
+     }
+
+     function signInSuccessHandler(response) {
+         let userData, login = document.querySelectorAll('.user-login')[0];
+
+         try {
+             userData = JSON.parse(response.response);
+         } catch (err) {
+             alert('Błędny login lub hasło. Spróbuj jescze raz');
+             console.error(new Error('signIn invalid JSON format response'));
+             return;
+         }
+
+         login.innerHTML = userData.user.email;
+         isLogged = true;
+         setNavigation();
+         location.hash = '#home';
+     }
+
+ })();
