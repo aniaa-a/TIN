@@ -23,9 +23,18 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/register")
-    public void RegisterUser(@RequestBody User user) {
+    public UserResponseDto RegisterUser(@RequestBody User user) {
 
-        userService.registerUser(user);
+
+        UserResponseDto userResponseDto = new UserResponseDto();
+
+        if (userService.findUserByMail(user.getEmail()) != null) {
+            userResponseDto.setStatus("mail istnieje w bazie");
+        }else {
+            userService.registerUser(user);
+            userResponseDto.setStatus("ok");
+        }
+        return userResponseDto;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -51,14 +60,13 @@ public class UserController {
     public boolean logged(HttpServletRequest req, @RequestParam(defaultValue = "email") String email) {
 
         HttpSession session = req.getSession();
-        String user = (String) session.getAttribute(email);
+        String user = (String) session.getAttribute("user");
 
         // mozna uzyc fajnego skrótu w tym miejscu:
         // return user != null;
         // nie trzeba wtedy robic if elsa
-        if (user != null)
-            return true;
-        else
-            return false;
+
+        return user != null;
+
     }
 }

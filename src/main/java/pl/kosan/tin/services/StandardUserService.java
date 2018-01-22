@@ -21,14 +21,21 @@ public class StandardUserService implements UserService {
 
     @Override
     public User findUserById(Long userId) {
+
         return userDao.findUserById(userId);
 
     }
 
     @Override
-    public User findUserByMailAndPass(String email, String password){
+    public User findUserByMailAndPass(String email, String password) {
 
         return userDao.findUserByMailAndPass(email, password);
+    }
+
+    @Override
+    public User findUserByMail(String email) {
+
+        return userDao.findUserByMail(email);
     }
 
 
