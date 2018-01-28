@@ -40,6 +40,7 @@ TIN.Http = (function() {
     }
 
     return {
+        ajaxPromise: ajaxPromise,
         isLogged: isLogged,
         signIn: signIn
     }

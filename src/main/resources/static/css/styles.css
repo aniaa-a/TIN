@@ -122,6 +122,11 @@ footer {
     padding: 20px;
 }
 
+.bodyTrip a {
+    display: inline-block;
+    text-decoration: none;
+}
+
 .trip-background {
     background: center/cover no-repeat;
     height: 350px;
