@@ -61,12 +61,12 @@ public class UserController {
 
         HttpSession session = req.getSession();
         String user = (String) session.getAttribute("user");
-
-        // mozna uzyc fajnego skrótu w tym miejscu:
-        // return user != null;
-        // nie trzeba wtedy robic if elsa
-
-        return user != null;
-
+        if (user.equals(email)) {
+            return true;
+        }else {
+            return false;
+        }
     }
+
+
 }
