@@ -57,15 +57,12 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/isLogged", method = RequestMethod.GET)
-    public boolean logged(HttpServletRequest req, @RequestParam(defaultValue = "email") String email) {
+    public String logged(HttpServletRequest req) {
 
         HttpSession session = req.getSession();
         String user = (String) session.getAttribute("user");
-        if (user.equals(email)) {
-            return true;
-        }else {
-            return false;
-        }
+
+        return user;
     }
 
 

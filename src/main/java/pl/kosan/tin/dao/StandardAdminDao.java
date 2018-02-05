@@ -21,7 +21,7 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
     private static final String ADD_CAR_DRIVER = "insert into tin_driver_to_car (id_cardriver, id_car, date_trip) \n" +
             "select id_cardriver,id_cardriver, :date_trip from tin_cardriver, tin_car where tin_cardriver.pesel = :pesel and tin_car.registration_num = :registration_num";
 
-    private static final
+    /*private static final*/
     @Override
     public Optional<List<UserReservationRespDto>> findReservationForUser(String email) {
 

@@ -31,7 +31,7 @@ public class ReservationController {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.POST, value = "/book")
+    @RequestMapping(method = RequestMethod.POST, value = "/addCar")
     public void addCarForReservation(@RequestParam(defaultValue = "car") Car car, @RequestParam(defaultValue = "driver") CarDriver driver,
                                      @RequestParam(defaultValue = "idReservation") Long idReservation) {
 
