@@ -2,24 +2,26 @@ package pl.kosan.tin.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import pl.kosan.tin.dto.UserReservationRespDto;
+import pl.kosan.tin.model.Car;
+import pl.kosan.tin.model.CarDriver;
 
 import java.util.List;
 import java.util.Optional;
 
-public class StandardApplicationDao extends NamedParameterJdbcDaoSupport implements ApplicationDao {
+public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements AdminDao {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(StandardApplicationDao.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(StandardAdminDao.class);
 
     private static final String FIND_RESERVATION_FOR_USER = "SELECT a.id_reservation, b.name + b.surname driver, c.city, d.user_name, d.user_surname, d.identity_document, d.email, d.phone, a.date_trip, a.status, c.price_person, a.num_people\n" +
             "FROM tin_reservation a, tin_trip c, tin_carDriver b, tin_user d, tin_driver_to_car e\n" +
             "WHERE a.id_trip = c.id_trip AND a.id_user = d.id_user AND a.id_driver_to_car = e.id_driver_to_car AND b.id_carDriver = e.id_carDriver AND d.email = :email";
 
+    private static final String ADD_CAR_DRIVER = "insert into tin_driver_to_car (id_cardriver, id_car, date_trip) \n" +
+            "select id_cardriver,id_cardriver, :date_trip from tin_cardriver, tin_car where tin_cardriver.pesel = :pesel and tin_car.registration_num = :registration_num";
 
+    private static final
     @Override
     public Optional<List<UserReservationRespDto>> findReservationForUser(String email) {
 
@@ -46,5 +48,10 @@ public class StandardApplicationDao extends NamedParameterJdbcDaoSupport impleme
         }
 */
         return null;
+    }
+    @Override
+    public void addCarDriverToReservation(Car car, CarDriver carDriver, Long idReservation){
+
+
     }
 }

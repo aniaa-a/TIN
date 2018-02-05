@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.kosan.tin.dto.UserReservationRespDto;
+import pl.kosan.tin.model.Car;
+import pl.kosan.tin.model.CarDriver;
 import pl.kosan.tin.model.Reservation;
 import pl.kosan.tin.services.ReservationService;
 
@@ -28,6 +30,14 @@ public class ReservationController {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.POST, value = "/book")
+    public void addCarForReservation(@RequestParam(defaultValue = "car") Car car, @RequestParam(defaultValue = "driver") CarDriver driver,
+                                     @RequestParam(defaultValue = "idReservation") Long idReservation) {
+
+
+
+    }
 
 
 }

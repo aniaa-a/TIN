@@ -6,4 +6,6 @@ import pl.kosan.tin.model.Reservation;
 public interface ReservationService {
 
     void setReservation(UserReservationRespDto reservation);
+
+
 }
