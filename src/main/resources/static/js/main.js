@@ -143,7 +143,6 @@
                 mailUser: this.mailUser.value,
                 dateTrip: new Date(this.dateTrip.value),
                 pricePerPerson: Number(reservation.price),
-                price: reservation.price * numPeopleValue,
                 numPeople: numPeopleValue
             };
 
