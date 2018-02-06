@@ -3,15 +3,19 @@
     <form id="formReservation">
         <div class="form-group">
             <label>Miasto</label>
-            <input type="text" placeholder="Miasto" name="city" required>
+            <input type="text" placeholder="Miasto" name="city" required disabled>
         </div>
         <div class="form-group">
             <label>email</label>
-            <input type="email" placeholder="email" name="mailUser" required>
+            <input type="email" placeholder="email" name="mailUser" required disabled>
         </div>
         <div class="form-group">
             <label>numer telefonu</label>
-            <input type="text" placeholder="telefon" name="phoneUser" required>
+            <input type="text"
+                    placeholder="telefon"
+                    name="phoneUser"
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                    required>
         </div>
         <div class="form-group">
             <label>data</label>

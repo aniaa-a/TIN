@@ -1,170 +1,161 @@
 (function () {
-    const navRoutes = {
-        home: 'templates/home.html',
-        cracow: 'templates/krakow.html',
-        zakopane: 'templates/zakopane.html',
-        warsaw: 'templates/warszawa.html',
-        contact: 'templates/contact.html',
-        signIn: 'templates/logowanie.html',
-        reservation: 'templates/rezerwacja.html'
-    };
+    const model = new Model();
+    const app = new App('#container', model);
+    const router = new Router(app);
 
-    let container = document.getElementById('container'),
-        isLogged = false,
-        reservation = {},
-        userInfo = {};
-
-    bindEvents();
-    setNavigation();
-
-    function bindEvents() {
-        let signOutBtn = document.getElementById('sign-out'),
-            signUpLink = document.getElementById('signUpLink');
-
-        signUpLink.onclick = function () {
-            localStorage.setItem('lastLocation', location.hash);
-        };
-
-        signOutBtn.onclick = function () {
-            isLogged = false;
-            userInfo = {};
-            setNavigation();
-        };
-
-        document.body.onclick = function (event) {
-            if (event.target.id === 'reservationButton') {
-                reservation.city = event.target.dataset.reservation;
-                reservation.price = document.getElementById('tripPrice').dataset.price;
-            } else if (event.target.id === 'sign-in-submit') {
-                signIn(event);
-            }
-        };
-
-        window.onhashchange = hashChangeHandler;
-
-        window.dispatchEvent(new Event('hashchange'));
-    }
-
-    function replaceHtml(data) {
-        container.innerHTML = data;
-    }
-
-    function setNavigation() {
-        let navAccess = document.querySelectorAll('.nav-access')[0],
-            navSignOut = document.querySelectorAll('.sign-out')[0];
-
-        navAccess.hidden = isLogged;
-        navSignOut.hidden = !isLogged;
-    }
-
-    function hashChangeHandler() {
-        if (location.hash === '') {
-            location.hash = 'home';
+    app.addComponent({
+        name: 'home',
+        templateUrl: './templates/home.html',
+        view() {
+            return 'home';
         }
-
-        if (location.hash === '#reservation' && !reservation.city) {
-            location.hash = 'home';
-            return;
+    });
+    app.addComponent({
+        name: 'cracow',
+        templateUrl: './templates/cracow.html',
+        controller: tripController
+    });
+    app.addComponent({
+        name: 'warsaw',
+        templateUrl: './templates/warsaw.html',
+        controller: tripController
+    });
+    app.addComponent({
+        name: 'zakopane',
+        templateUrl: './templates/zakopane.html',
+        controller: tripController
+    });
+    app.addComponent({
+        name: 'reservation',
+        templateUrl: './templates/reservation.html',
+        controller: reservationController
+    });
+    app.addComponent({
+        name: 'contact',
+        templateUrl: './templates/contact.html',
+        view() {
+            return 'contact';
         }
+    });
+    app.addComponent({
+        name: 'login',
+        templateUrl: './templates/login.html',
+        controller: loginController
+    });
+    app.addComponent({
+        name: 'register',
+        templateUrl: './templates/register.html',
+        controller: registerController
+    });
 
-        TIN.Http.ajaxPromise('GET', navRoutes[location.hash.substring(1)])
-            .then(function(data) {
-                replaceHtml(data.response);
+    router.addRoute('home', '^#/home$');
+    router.addRoute('cracow', '^#/cracow$');
+    router.addRoute('warsaw', '^#/warsaw$');
+    router.addRoute('zakopane', '^#/zakopane$');
+    router.addRoute('reservation', '^#/reservation$', true);
+    router.addRoute('contact', '^#/contact$');
+    router.addRoute('login', '^#/login$');
+    router.addRoute('register', '^#/register$');
 
-                if (location.hash === '#reservation') {
-                    prepareReservation();
-                } else {
-                    delete reservation.city;
-                    delete reservation.price;
-                }
-            })
-            .catch(function(error) {
-                console.error('Something went wrong.', error);
+    model.logInEvent.attach(setNavigation);
+    model.registeredEvent.attach(onRegistered);
+
+    setNavigation(model.isLogged);
+    window.dispatchEvent(new Event('hashchange'));
+
+    function tripController() {
+        const reservationBtn = document.querySelector('#reservationButton');
+        const reservationPrice = document.querySelector('#tripPrice');
+
+        reservationBtn.addEventListener('click', function () {
+            model.setTrip({
+                city: this.dataset.reservation,
+                price: reservationPrice.dataset.price
             });
+        });
     }
 
-    function signIn(event) {
-        let loginForm = document.querySelectorAll('.form-login')[0];
+    function reservationController() {
+        const form = document.querySelector('#formReservation');
+        const priceInfo = document.querySelector('#reservationTripPrice').children[0];
 
-        event.preventDefault();
+        form.city.value = model.currentTrip.city;
+        form.dateTrip.min = (new Date()).toISOString().split('T')[0];
+        priceInfo.innerText = `${model.currentTrip.price} zł`;
+        form.mailUser.value = model.user.email;
 
-        // todo: jezeli uzytkownik nie istnieje backend musi zwrocic kod bledu lub status (musimy to dogadac)
-        TIN.Http.signIn(loginForm.email.value, loginForm.password.value)
-            .then(signInSuccessHandler)
-            .catch(function (err) {
-                alert('Błędny login lub hasło. Spróbuj jescze raz');
-                console.error(err);
-            })
-    }
-
-    function signInSuccessHandler(response) {
-        let userData, login = document.querySelectorAll('.user-login')[0];
-
-        try {
-            userData = JSON.parse(response.response);
-        } catch (err) {
-            alert('Błędny login lub hasło. Spróbuj jescze raz');
-            console.error(new Error('signIn invalid JSON format response'));
-            return;
+        if (model.user.phone) {
+            form.phoneUser.value = model.user.phone;
+            form.phoneUser.disabled = true;
         }
 
-        login.innerHTML = userData.user.email;
-        userInfo = userData.user;
-        isLogged = true;
-        setNavigation();
-        location.hash = '#home';
-    }
-
-    function prepareReservation() {
-        let reservationForm = document.getElementById('formReservation'),
-            reservationPrefix = document.getElementById('reservationPrefix'),
-            reservationPrice = document.getElementById('reservationTripPrice');
-
-        reservationPrefix.innerText = reservation.city ? `( ${reservation.city} )` : '';
-        reservationPrice.children[0].innerText = reservation.price ? `${reservation.price} zł` : '';
-
-        reservationForm.dateTrip.min = (new Date()).toISOString().split('T')[0];
-        reservationForm.city.value = reservation.city;
-
-        if (userInfo.email) {
-            reservationForm.mailUser.value = userInfo.email;
-        }
-
-        if (userInfo.phone) {
-            reservationForm.phoneUser.vale = userInfo.phone;
-        }
-
-        reservationForm.onsubmit = function(e) {
-            let jsonData;
-            const numPeopleValue = this.numPeople.value;
-            const data = {
-                city: this.city.value,
-                phoneUser: this.phoneUser.value,
-                mailUser: this.mailUser.value,
-                dateTrip: new Date(this.dateTrip.value),
-                pricePerPerson: Number(reservation.price),
-                numPeople: numPeopleValue
-            };
-
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            try {
-                jsonData = JSON.stringify(data);
-            } catch (e) {
-                console.error('Register data JSON invalid format');
-                return;
-            }
+            const reservation = {
+                city: this.city.value,
+                dateTrip: this.dateTrip.value,
+                mailUser: this.mailUser.value,
+                numPeople: Number(this.numPeople.value),
+                pricePerPerson: Number(model.currentTrip.price)
+            };
 
-            alert(jsonData);
-
-            TIN.Http.ajaxPromise('POST', '/reservation/book', jsonData, ['Content-Type', 'application/json'])
-                .then(function(data) {
-                    console.log(data);
-                })
-                .catch(function(error){
-                    console.error(error);
-                });
-        }
+            model.sendReservation(reservation);
+        });
     }
 
+    function loginController() {
+        const form = document.querySelector('#loginForm');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const user = {
+                email: this.email.value,
+                password: this.password.value
+            };
+
+            model.authorizeUser(user);
+        });
+    }
+
+    function registerController() {
+        const form = document.querySelector('#sign-up-form');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = form['email'].value;
+            const password = form['password'].value;
+            const passwordRepat = form['password-repeat'].value;
+            const classList = form['password-repeat'].parentElement.classList;
+
+            if (password === passwordRepat) {
+                classList.remove('hasError');
+                model.registerUser({email: email, password: password});
+            } else {
+                classList.add('hasError');
+            }
+        });
+    }
+
+    function onRegistered() {
+        window.history.back();
+    }
+
+    function setNavigation(isLogged) {
+        const accessContainer = document.querySelector('.nav-access');
+        const userLogin = document.querySelector('.user-login');
+        const logoutContainer = document.querySelector('.sign-out');
+
+        accessContainer.hidden = isLogged;
+        logoutContainer.hidden = !isLogged;
+
+        if (isLogged) {
+            userLogin.innerHTML = model.user.email;
+            history.back();
+        } else {
+            userLogin.innerHTML = '';
+        }
+    }
 })();

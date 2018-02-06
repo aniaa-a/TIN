@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/forms.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <title>TIN</title>
 </head>
@@ -12,23 +11,23 @@
     <header class="header">
         <img src="images/logo.png" alt="logo"  class="img-responsive" width="304" height="100"/>
         <div class="navbar">
-            <a href="#home">Home</a>
+            <a href="#/home">Home</a>
             <div class="dropdown">
                 <button class="dropbtn">Tours
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="#zakopane">Zakopane</a>
-                    <a href="#cracow">Kraków</a>
-                    <a href="#warsaw">Warszawa</a>
+                    <a href="#/zakopane">Zakopane</a>
+                    <a href="#/cracow">Kraków</a>
+                    <a href="#/warsaw">Warszawa</a>
                 </div>
             </div>
-            <a href="#contact">Contact</a>
-            <div class="nav-access">
-                <a href="#signIn">Zaloguj</a>
-                <a href="./templates/rejestracja.html" id="signUpLink">Zarejestruj</a>
+            <a href="#/contact">Contact</a>
+            <div class="nav-access" hidden>
+                <a href="#/login">Zaloguj</a>
+                <a href="#/register" id="signUpLink">Zarejestruj</a>
             </div>
-            <div class="sign-out">
+            <div class="sign-out" hidden>
                 <span class="user-login">Test Login</span>
                 <span id="sign-out"> Wyloguj</span>
             </div>
@@ -43,7 +42,10 @@
         <span> Warsaw 00-406</span>
     </footer>
 </div>
-<script src="./js/services.js"></script>
+<script src="./js/event.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/model.js"></script>
+<script src="./js/router.js"></script>
 <script src="./js/main.js"></script>
 </body>
 </html>
