@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 @Repository
 public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements AdminDao {
 
@@ -28,9 +29,9 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
             "WHERE a.id_trip = c.id_trip AND a.id_user = d.id_user AND a.id_driver_to_car = e.id_driver_to_car AND b.id_carDriver = e.id_carDriver AND d.email = :email";
 
     private static final String ADD_CAR_DRIVER = "insert into tin_driver_to_car (id_cardriver, id_car, date_trip) \n" +
-            "select id_cardriver,id_cardriver, :date_trip from tin_cardriver, tin_car where tin_cardriver.pesel = :pesel and tin_car.registration_num = :registration_num";
+            "select id_cardriver, id_car, :date from tin_cardriver, tin_car where tin_cardriver.pesel = :pesel and tin_car.registration_num = :registr_num";
 
-    private final static String UPDATE_RESERVATION = "update tin_reservation set id_driver_to_car = :id_driver_to_car where id_reservation = : idReservation";
+    private final static String UPDATE_RESERVATION = "update tin_reservation set id_driver_to_car = :id_driver_to_car where id_reservation = :id_reservation";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -40,28 +41,6 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
     @Override
     public Optional<List<UserReservationRespDto>> findReservationForUser(String email) {
 
-       /* MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("email", email);
-        try {
-
-            return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_FOR_USER, mapSqlParameterSource, (rs, rowNum) -> {
-                UserReservationRespDto userReservationRespDto = new UserReservationRespDto();
-                userReservationRespDto.setReservationId(rs.getLong("id_reservation"));
-                userReservationRespDto.setCity(rs.getString("city"));
-                userReservationRespDto.setDateTrip(rs.getDate("date_trip"));
-                userReservationRespDto.setMailUser(rs.getString("email"));
-                userReservationRespDto.setPhoneUser(rs.getString("phone"));
-              //  userReservationRespDto.setPricePerPerson(rs.getDouble(""));
-                return userReservationRespDto;
-
-            }));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw e;
-        }
-*/
         return null;
     }
 
@@ -89,7 +68,7 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
         mapSqlParameterSource = new MapSqlParameterSource();
 
         mapSqlParameterSource.addValue("id_driver_to_car", id)
-                .addValue("idReservation", carDriverReservationRespDto.getIdReservation());
+                .addValue("id_reservation", carDriverReservationRespDto.getIdReservation());
 
 
         try {

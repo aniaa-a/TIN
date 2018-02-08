@@ -7,7 +7,7 @@ public class CarDriverReservationRespDto {
 
     private String pesel;
     private String registr_num;
-    private Date date;
+    private String date;
     private Long idReservation;
 
     public String getPesel() {
@@ -26,11 +26,11 @@ public class CarDriverReservationRespDto {
         this.registr_num = registr_num;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

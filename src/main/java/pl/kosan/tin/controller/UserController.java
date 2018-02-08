@@ -57,12 +57,20 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/isLogged", method = RequestMethod.GET)
-    public String logged(HttpServletRequest req) {
+    public UserResponseDto logged(HttpServletRequest req) {
 
         HttpSession session = req.getSession();
         String user = (String) session.getAttribute("user");
+        UserResponseDto userResponseDto = new UserResponseDto();
+        System.out.print(user);
+        if (user != null) {
+            userResponseDto.setUser(userService.findUserByMail(user));
+            userResponseDto.setStatus("ok");
 
-        return user;
+        }else{
+            userResponseDto.setStatus("brak uzytkownika");
+        }
+        return userResponseDto;
     }
 
 
