@@ -10,4 +10,6 @@ public interface AdminService {
 
     void addCarDriverToReservation(CarDriverReservationRespDto carDriverReservationRespDto);
 
+    //void updateReservation(Long idReservation, Long idCarToDriver);
+
 }

@@ -46,7 +46,7 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
 
 
     @Override
-    public void addCarDriverToReservation(CarDriverReservationRespDto carDriverReservationRespDto){
+    public void addCarDriverToReservation(CarDriverReservationRespDto carDriverReservationRespDto) {
 
         Long id;
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -60,24 +60,32 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
         try {
             getNamedParameterJdbcTemplate().update(ADD_CAR_DRIVER, mapSqlParameterSource, keyHolder);
             id = (keyHolder.getKey().longValue());
+
+              updateReservation(carDriverReservationRespDto.getIdReservation(), id);
+              LOGGER.info("idres: "+carDriverReservationRespDto.getIdReservation());
+              LOGGER.info("id : "+id);
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage(), e);
             throw e;
         }
 
-        mapSqlParameterSource = new MapSqlParameterSource();
+    }
 
-        mapSqlParameterSource.addValue("id_driver_to_car", id)
-                .addValue("id_reservation", carDriverReservationRespDto.getIdReservation());
+    @Override
+    public void updateReservation(Long idReservation, Long idCarToDriver) {
 
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+
+        mapSqlParameterSource.addValue("id_driver_to_car", idCarToDriver)
+                .addValue("id_reservation", idReservation );
 
         try {
             getNamedParameterJdbcTemplate().update(UPDATE_RESERVATION, mapSqlParameterSource);
+
         } catch (DataAccessException e) {
             LOGGER.error(e.getMessage(), e);
             throw e;
         }
-
 
     }
 }

@@ -16,6 +16,8 @@ public interface AdminDao {
 
     void addCarDriverToReservation(CarDriverReservationRespDto carDriverReservationRespDto);
 
+    void updateReservation(Long idReservation, Long idCarToDriver);
+
 
 
 }

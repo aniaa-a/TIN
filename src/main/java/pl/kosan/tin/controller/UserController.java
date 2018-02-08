@@ -41,11 +41,12 @@ public class UserController {
     @RequestMapping(path = "/log", method = RequestMethod.GET)
     public UserResponseDto logInUser(HttpServletRequest req, @RequestParam(defaultValue = "email") String email,
                                      @RequestParam(defaultValue = "password") String password) {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(true);
         UserResponseDto userResponseDto = new UserResponseDto();
         User user = userService.findUserByMailAndPass(email, password);
         if (user != null) {
             session.setAttribute("user", email);
+            System.out.println("USER1: "+ session.getAttribute("user"));
             userResponseDto.setUser(user);
             userResponseDto.setStatus("ok");
         } else {
@@ -59,10 +60,10 @@ public class UserController {
     @RequestMapping(path = "/isLogged", method = RequestMethod.GET)
     public UserResponseDto logged(HttpServletRequest req) {
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(true);
         String user = (String) session.getAttribute("user");
         UserResponseDto userResponseDto = new UserResponseDto();
-        System.out.print(user);
+        System.out.println("USER: "+user);
         if (user != null) {
             userResponseDto.setUser(userService.findUserByMail(user));
             userResponseDto.setStatus("ok");
@@ -71,6 +72,14 @@ public class UserController {
             userResponseDto.setStatus("brak uzytkownika");
         }
         return userResponseDto;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    public void logOutUser(HttpServletRequest req) {
+        HttpSession session = req.getSession(true);
+
+        session.removeAttribute("user");
     }
 
 

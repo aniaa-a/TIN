@@ -4,13 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import pl.kosan.tin.dto.ReservationRespDto;
+import pl.kosan.tin.model.CarDriver;
 import pl.kosan.tin.model.DriverToCar;
 import pl.kosan.tin.model.Reservation;
+import pl.kosan.tin.model.ReservationStatus;
 
 import javax.sql.DataSource;
 import java.util.Date;
@@ -25,7 +29,11 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     private final static String INSERT_RESERVATION = "INSERT INTO tin_reservation(id_trip, id_user, date_trip, status, num_people)" +
             "VALUES(:id_trip, :id_user, :date_trip, :status, :num_people)";
 
-   // private final static String ADD_CARDRIVER = ""
+    private final static String FIND_ALL_RESERVATION = "select a.id_reservation, e.city, a.date_trip, a.status, b.registration_num, c.surname, c.pesel\n" +
+            "from  tin_cardriver c join tin_driver_to_car d  on c.id_cardriver = d.id_cardriver\n" +
+            "join tin_car b on b.id_car = d.id_car\n" +
+            "right join tin_reservation a on  a.id_driver_to_car = d.id_driver_to_car \n" +
+            "join tin_trip e on a.id_trip = e.id_trip";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -68,8 +76,29 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     }
 
     @Override
-    public Optional<List<Reservation>> findAllReservation() {
-        return Optional.empty();
+    public Optional<List<ReservationRespDto>> findAllReservation() {
+        try {
+            return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_ALL_RESERVATION,
+                    new MapSqlParameterSource(), (rs, rowNum) -> {
+
+                        ReservationRespDto reservationRespDto = new ReservationRespDto();
+                        reservationRespDto.setIdReservation(rs.getLong( "id_reservation"));
+                        reservationRespDto.setCity(rs.getString("city"));
+                        reservationRespDto.setDateTrip(rs.getDate("date_trip"));
+                        reservationRespDto.setPeselClient(rs.getString("pesel"));
+                        reservationRespDto.setRegistration_num(rs.getString("registration_num"));
+                        reservationRespDto.setStatus((ReservationStatus) rs.getObject("status"));
+                        reservationRespDto.setSurnameClient(rs.getString("surname"));
+
+                        return reservationRespDto;
+                    }));
+
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
@@ -78,7 +107,7 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     }
 
     @Override
-    public void addCarDriver(DriverToCar driverToCar){
+    public void addCarDriver(DriverToCar driverToCar) {
 
 
     }

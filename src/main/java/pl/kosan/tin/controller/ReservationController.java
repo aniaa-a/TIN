@@ -5,11 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.kosan.tin.dto.ReservationRespDto;
 import pl.kosan.tin.dto.UserReservationRespDto;
 import pl.kosan.tin.model.Car;
 import pl.kosan.tin.model.CarDriver;
 import pl.kosan.tin.model.Reservation;
 import pl.kosan.tin.services.ReservationService;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -29,15 +33,16 @@ public class ReservationController {
 
     }
 
-
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.POST, value = "/addCar")
-    public void addCarForReservation(@RequestParam(defaultValue = "car") Car car, @RequestParam(defaultValue = "driver") CarDriver driver,
-                                     @RequestParam(defaultValue = "idReservation") Long idReservation) {
+    @RequestMapping(method = RequestMethod.GET, value = "/getAll")
+    public List<ReservationRespDto> getAllReservation() {
 
-
+        return reservationService.getAllReservations();
 
     }
+
+
+
 
 
 }

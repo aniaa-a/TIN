@@ -1,5 +1,6 @@
 package pl.kosan.tin.dao;
 
+import pl.kosan.tin.dto.ReservationRespDto;
 import pl.kosan.tin.model.DriverToCar;
 import pl.kosan.tin.model.Reservation;
 
@@ -18,7 +19,7 @@ public interface ReservationDao {
 
     Reservation findReservationById(Long reservationId);
 
-    Optional<List<Reservation>> findAllReservation();
+    Optional<List<ReservationRespDto>> findAllReservation();
 
     Optional<List<Reservation>> findReservationByDate( Date dateTrip);
 
