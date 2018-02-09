@@ -18,7 +18,7 @@ class Model {
             .then(response => Model.checkStatus(response, 200))
             .then(response => response.text())
             .then(data => this.templateLoaded.notify(data))
-            .catch(error => alert(error.error));
+            .catch(error => alert(error));
     }
 
     sendReservation(data) {
@@ -33,7 +33,7 @@ class Model {
         })
             .then(response => Model.checkStatus(response, 201))
             .then(() => this.reservationEvent.notify())
-            .catch(error => alert(error.error));
+            .catch(error => alert(error));
     }
 
     authorizeUser(user) {
@@ -49,7 +49,7 @@ class Model {
                     throw new Error(data.status);
                 }
             })
-            .catch(error => alert(error.error));
+            .catch(error => alert(error));
     }
 
     logIn(user) {
@@ -68,7 +68,7 @@ class Model {
                 this.user = null;
                 this.authorizationEvent.notify(this.isLogged);
             })
-            .catch(error => alert(error.error));
+            .catch(error => alert(error));
     }
 
     checkIfLogged() {
@@ -86,7 +86,7 @@ class Model {
             })
             .catch(error => {
                 this.authorizationEvent.notify(this.isLogged);
-                alert(error.error);
+                alert(error);
             });
     }
 
@@ -103,7 +103,7 @@ class Model {
                     return Promise.reject(response.statusText);
                 }
             })
-            .catch(error => alert(error.error));
+            .catch(error => alert(error));
     }
 
     static checkStatus(response, status) {
