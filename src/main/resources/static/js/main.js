@@ -57,8 +57,18 @@
     router.addRoute('login', '^#/login$');
     router.addRoute('register', '^#/register$');
 
+
+    model.checkIfLogged();
+
     model.logInEvent.attach(setNavigation);
-    model.registeredEvent.attach(onRegistered);
+    model.registeredEvent.attach(function() {
+        alert('Zarejestrowa\u0142e\u015B si\u0119!');
+        location.hash = '/home';
+    });
+    model.reservationEvent.attach(function() {
+        alert('Rezerwacja z\u0142o\u017Cona!');
+        location.hash = '/home';
+    });
 
     setNavigation(model.isLogged);
     window.dispatchEvent(new Event('hashchange'));
@@ -137,10 +147,6 @@
                 classList.add('hasError');
             }
         });
-    }
-
-    function onRegistered() {
-        window.history.back();
     }
 
     function setNavigation(isLogged) {

@@ -4,37 +4,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
-    <title>TIN</title>
+    <title>TIN ADMIN</title>
 </head>
 <body>
-<table>
-    <tr>
-        <th>miasto</th>
-        <th>mail</th>
-        <th>numer telefonu</th>
-        <th>kierowca</th>
-        <th>samochód</th>
-        <th>status</th>
+<div class="admin-container" id="container">
+    <h2>Tabela rezerwacji</h2>
+</div>
+<div class="popup" hidden>
+    <form id="editForm">
+        <div class="form-group">
+            <label for="drivers">Wybierz kierowcę</label>
+            <select name="drivers" id="drivers"></select>
+        </div>
+        <div class="form-group">
+            <label for="cars">Wybierz samochód</label>
+            <select name="cars" id="cars"></select>
+        </div>
+        <button class="btn cancelbtn" type="button" id="cancelEdit">Anuluj</button>
+        <button class="btn" type="submit">Zapisz</button>
+    </form>
+</div>
 
-    </tr>
-    <tr>
-        <td>ertet</td>
-        <td>ertert</td>
-        <td>ertert</td>
-        <td>ertetr</td>
-        <td>ertetr</td>
-        <td>ertt</td>
-
-    </tr>
-    <tr>
-        <td>ert</td>
-        <td>ert</td>
-        <td>ert</td>
-        <td>ert</td>
-        <td>ert</td>
-        <td>ert</td>
-
-    </tr>
-</table>
+<script src="../js/admin/admin.service.js"></script>
+<script src="../js/admin/admin.model.js"></script>
+<script src="../js/admin/admin.js"></script>
 </body>
 </html>

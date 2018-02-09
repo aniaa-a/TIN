@@ -25,7 +25,7 @@ class App {
             this.showComponent(name);
         } else {
             window.history.back();
-            alert('Aby zlozyc rezerwacje.. \nZaloguj sie pytam sie!\nAle to juz!');
+            alert('Musisz by\u0107 zalogowany aby z\u0142o\u017Cy\u0107 rezerwacj\u0119');
         }
     }
     updateView(template) {

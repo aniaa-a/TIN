@@ -10,6 +10,7 @@ import pl.kosan.tin.model.User;
 import pl.kosan.tin.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -21,16 +22,21 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @ResponseStatus(HttpStatus.CREATED)
+    // NIE ZABIJ MNIE ALE WAZNE JEST ABY USTAWIC TE 2 ROZNE STATUSY
+    // Nie wiem jak to sie robi w javie ale tak na razie ustawilem zeby zobaczyc czy dziala front i jest ok
+
+//    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/register")
-    public UserResponseDto RegisterUser(@RequestBody User user) {
+    public UserResponseDto RegisterUser(@RequestBody User user, HttpServletResponse response) {
 
 
         UserResponseDto userResponseDto = new UserResponseDto();
 
         if (userService.findUserByMail(user.getEmail()) != null) {
+            response.setStatus(200); // tutaj 200
             userResponseDto.setStatus("mail istnieje w bazie");
         }else {
+            response.setStatus(201); // tutaj 201
             userService.registerUser(user);
             userResponseDto.setStatus("ok");
         }

@@ -3,6 +3,7 @@ class Model {
         this.templateLoaded = new AppEvent(this);
         this.logInEvent = new AppEvent(this);
         this.registeredEvent = new AppEvent(this);
+        this.reservationEvent = new AppEvent(this);
 
         this.currentTrip = {};
         this.user = {};
@@ -15,7 +16,7 @@ class Model {
 
     getTemplate(url) {
         fetch(url)
-        .then(this.checkStatus)
+        .then(response => this.checkStatus(response, 200))
         .then(response => {
             return response.text();
         })
@@ -27,31 +28,20 @@ class Model {
         });
     }
 
-    checkStatus(response) {
-        if (response.status === 200) {
-            return Promise.resolve(response);
-        } else {
-            return Promise.reject(new Error(response.statusText));
-        }
-    }
-
     sendReservation(data) {
         const url = '/reservation/book';
 
-        try {
-            data = JSON.stringify(data);
-        } catch(error) {
-            console.error(error);
-            alert('Invalid reservation JSON format');
-            return;
-        }
+        data = JSON.stringify(data);
 
         fetch(url, {
             method: 'POST',
             body: data,
             headers: {'Content-Type': 'application/json'},
         })
-        .then(response => console.log(response))
+        .then(response => this.checkStatus(response, 201))
+        .then(() => {
+            this.reservationEvent.notify();
+        })
         .catch(error => alert(error));
     }
 
@@ -59,7 +49,7 @@ class Model {
         const url = `/user/log?email=${user.email}&password=${user.password}`;
 
         fetch(url)
-        .then(this.checkStatus)
+        .then(response => this.checkStatus(response, 200))
         .then(response => {
             return response.json();
         })
@@ -79,16 +69,20 @@ class Model {
         this.logInEvent.notify(this.isLogged);
     }
 
+    checkIfLogged(){
+        const url = '/user/isLogged';
+
+        fetch(url)
+            .then(response => this.checkStatus(response, 200))
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+    }
+
     registerUser(user) {
         const url = '/user/register';
 
-        try {
-            user = JSON.stringify(user);
-        } catch (error) {
-            console.error(error);
-            alert('register user JSON format invalid');
-            return;
-        }
+        user = JSON.stringify(user);
 
         fetch(url, {
             method: 'POST',
@@ -98,10 +92,20 @@ class Model {
         .then(response => {
             if (response.status === 201) {
                 this.registeredEvent.notify();
+            } else if (response.status === 200) {
+                alert('Podany adres email jest ju\u017C zaj\u0119ty')
             } else {
                 return Promise.reject(response.statusText);
             }
         })
         .catch(error => alert(error));
+    }
+
+    checkStatus(response, status) {
+        if (response.status === status) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.reject(new Error(response.statusText));
+        }
     }
 }

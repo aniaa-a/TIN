@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 html, body {
     height: 100%;
 }
@@ -209,12 +213,46 @@ footer {
     padding: 50px 10px;
 }
 
-table, th, td {
-    border: 1px solid black;
+.admin-container {
+    margin-left: 50px;
+    margin-top: 40px;
+}
+
+table {
     border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px 20px;
+}
+
+.cell-edit {
+    padding-left: 20px;
+    border: 0;
 }
 
 .homeContent {
    width : 80%;
    margin : 0 auto;
+}
+
+.popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.94);
+}
+
+#editForm {
+    position: absolute;
+    padding: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    width: 550px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
 }
