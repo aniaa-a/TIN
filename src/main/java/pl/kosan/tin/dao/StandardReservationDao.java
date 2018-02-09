@@ -33,6 +33,8 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
             "from  tin_driver_to_car b right join tin_reservation a on  a.id_driver_to_car = b.id_driver_to_car\n" +
             "join tin_trip c on a.id_trip = c.id_trip join tin_user d on a.id_user = d.id_user";
 
+    private final static String DELETE_RESERVATION = "delete from tin_reservation where id_reservation = :idReservation";
+
     @Autowired
     public void setDs(DataSource dataSource) {
         this.setDataSource(dataSource);
@@ -60,6 +62,16 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
 
     @Override
     public void deleteReservationById(Long reservationId) {
+
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("idReservation", reservationId);
+        LOGGER.info("id rezerwacji:  "+reservationId);
+        try {
+            getNamedParameterJdbcTemplate().update(DELETE_RESERVATION, mapSqlParameterSource);
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
 
     }
 

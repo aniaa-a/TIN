@@ -42,6 +42,13 @@ public class ReservationController {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
+    public void setReservation(@RequestParam Long id) {
+
+        reservationService.deleteReservationById(id);
+    }
+
 
 
 

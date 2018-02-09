@@ -59,4 +59,10 @@ public class StandardReservationService implements ReservationService {
 
        return resList;
     }
+
+    @Override
+    public void deleteReservationById(Long reservationId){
+
+        reservationDao.deleteReservationById(reservationId);
+    }
 }
