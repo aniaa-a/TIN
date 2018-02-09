@@ -48,19 +48,28 @@ class Model {
     authorizeUser(user) {
         const url = `/user/log?email=${user.email}&password=${user.password}`;
 
-        fetch(url)
-        .then(response => this.checkStatus(response, 200))
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            if (data.user) {
-                this.logIn(data.user);
-            } else {
-                throw new Error(data.status);
-            }
-        })
-        .catch(error => alert(error));
+        let xhr = new XMLHttpRequest();
+
+        xhr.onload = function(data) {
+
+        }
+
+        xhr.open('GET', url, true);
+        xhr.send();
+
+//        fetch(url)
+//        .then(response => this.checkStatus(response, 200))
+//        .then(response => {
+//            return response.json();
+//        })
+//        .then(data => {
+//            if (data.user) {
+//                this.logIn(data.user);
+//            } else {
+//                throw new Error(data.status);
+//            }
+//        })
+//        .catch(error => alert(error));
     }
 
     logIn(user) {
@@ -72,11 +81,19 @@ class Model {
     checkIfLogged(){
         const url = '/user/isLogged';
 
-        fetch(url)
-            .then(response => this.checkStatus(response, 200))
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
+        let xhr = new XMLHttpRequest();
+
+        xhr.onload = function(data) {
+            console.log(data);
+       }
+        xhr.open('GET', url, true);
+        xhr.send();
+
+//        fetch(url)
+//            .then(response => this.checkStatus(response, 200))
+//            .then(response => response.json())
+//            .then(data => console.log(data))
+//            .catch(error => console.error(error));
     }
 
     registerUser(user) {

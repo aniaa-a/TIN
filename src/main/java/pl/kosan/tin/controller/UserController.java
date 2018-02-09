@@ -22,10 +22,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    // NIE ZABIJ MNIE ALE WAZNE JEST ABY USTAWIC TE 2 ROZNE STATUSY
-    // Nie wiem jak to sie robi w javie ale tak na razie ustawilem zeby zobaczyc czy dziala front i jest ok
 
-//    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     public UserResponseDto RegisterUser(@RequestBody User user, HttpServletResponse response) {
 
@@ -33,10 +30,10 @@ public class UserController {
         UserResponseDto userResponseDto = new UserResponseDto();
 
         if (userService.findUserByMail(user.getEmail()) != null) {
-            response.setStatus(200); // tutaj 200
+            response.setStatus(200);
             userResponseDto.setStatus("mail istnieje w bazie");
         }else {
-            response.setStatus(201); // tutaj 201
+            response.setStatus(201);
             userService.registerUser(user);
             userResponseDto.setStatus("ok");
         }
@@ -47,12 +44,14 @@ public class UserController {
     @RequestMapping(path = "/log", method = RequestMethod.GET)
     public UserResponseDto logInUser(HttpServletRequest req, @RequestParam(defaultValue = "email") String email,
                                      @RequestParam(defaultValue = "password") String password) {
-        HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession();
         UserResponseDto userResponseDto = new UserResponseDto();
         User user = userService.findUserByMailAndPass(email, password);
         if (user != null) {
             session.setAttribute("user", email);
-            System.out.println("USER1: "+ session.getAttribute("user"));
+           LOGGER.info("id sesji: " +session.getId() + " log: "+ session.getAttribute("user"));
+
+
             userResponseDto.setUser(user);
             userResponseDto.setStatus("ok");
         } else {
@@ -65,11 +64,14 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/isLogged", method = RequestMethod.GET)
     public UserResponseDto logged(HttpServletRequest req) {
+        String user= null;
+        HttpSession session = req.getSession();
 
-        HttpSession session = req.getSession(true);
-        String user = (String) session.getAttribute("user");
+             user = (String) session.getAttribute("user");
+            LOGGER.info("id sesji: " +session.getId() + " isLogged: "+user);
+
         UserResponseDto userResponseDto = new UserResponseDto();
-        System.out.println("USER: "+user);
+
         if (user != null) {
             userResponseDto.setUser(userService.findUserByMail(user));
             userResponseDto.setStatus("ok");
@@ -83,9 +85,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public void logOutUser(HttpServletRequest req) {
-        HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession();
 
-        session.removeAttribute("user");
+        //session.removeAttribute("user");
+        session.invalidate();
     }
 
 

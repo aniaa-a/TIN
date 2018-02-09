@@ -13,17 +13,12 @@ public interface ReservationDao {
 
     void insertReservation(Reservation reservation);
 
-    void updateReservation(Reservation reservation);
-
     void deleteReservationById(Long reservationId);
 
     Reservation findReservationById(Long reservationId);
 
     Optional<List<ReservationRespDto>> findAllReservation();
 
-    Optional<List<Reservation>> findReservationByDate( Date dateTrip);
-
-    void addCarDriver(DriverToCar driverToCar);
 
 
 }

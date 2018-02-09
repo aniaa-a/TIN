@@ -29,11 +29,9 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     private final static String INSERT_RESERVATION = "INSERT INTO tin_reservation(id_trip, id_user, date_trip, status, num_people)" +
             "VALUES(:id_trip, :id_user, :date_trip, :status, :num_people)";
 
-    private final static String FIND_ALL_RESERVATION = "select a.id_reservation, e.city, a.date_trip, a.status, b.registration_num, c.surname, c.pesel\n" +
-            "from  tin_cardriver c join tin_driver_to_car d  on c.id_cardriver = d.id_cardriver\n" +
-            "join tin_car b on b.id_car = d.id_car\n" +
-            "right join tin_reservation a on  a.id_driver_to_car = d.id_driver_to_car \n" +
-            "join tin_trip e on a.id_trip = e.id_trip";
+    private final static String FIND_ALL_RESERVATION = "select a.id_reservation, c.city, a.date_trip, a.status, b.id_car, b.id_cardriver, d.email " +
+            "from  tin_driver_to_car b right join tin_reservation a on  a.id_driver_to_car = b.id_driver_to_car\n" +
+            "join tin_trip c on a.id_trip = c.id_trip join tin_user d on a.id_user = d.id_user";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -61,11 +59,6 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     }
 
     @Override
-    public void updateReservation(Reservation reservation) {
-
-    }
-
-    @Override
     public void deleteReservationById(Long reservationId) {
 
     }
@@ -85,11 +78,10 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
                         reservationRespDto.setIdReservation(rs.getLong( "id_reservation"));
                         reservationRespDto.setCity(rs.getString("city"));
                         reservationRespDto.setDateTrip(rs.getDate("date_trip"));
-                        reservationRespDto.setPeselClient(rs.getString("pesel"));
-                        reservationRespDto.setRegistration_num(rs.getString("registration_num"));
                         reservationRespDto.setStatus((ReservationStatus) rs.getObject("status"));
-                        reservationRespDto.setSurnameClient(rs.getString("surname"));
-
+                        reservationRespDto.setCarId(rs.getLong("id_car"));
+                        reservationRespDto.setDriverId(rs.getLong("id_cardriver"));
+                        reservationRespDto.setEmail(rs.getString("email"));
                         return reservationRespDto;
                     }));
 
@@ -101,14 +93,5 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
         }
     }
 
-    @Override
-    public Optional<List<Reservation>> findReservationByDate(Date dateTrip) {
-        return Optional.empty();
-    }
 
-    @Override
-    public void addCarDriver(DriverToCar driverToCar) {
-
-
-    }
 }

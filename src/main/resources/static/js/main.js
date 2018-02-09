@@ -159,7 +159,7 @@
 
         if (isLogged) {
             userLogin.innerHTML = model.user.email;
-            history.back();
+            location.hash = '/home';
         } else {
             userLogin.innerHTML = '';
         }

@@ -29,7 +29,7 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
             "WHERE a.id_trip = c.id_trip AND a.id_user = d.id_user AND a.id_driver_to_car = e.id_driver_to_car AND b.id_carDriver = e.id_carDriver AND d.email = :email";
 
     private static final String ADD_CAR_DRIVER = "insert into tin_driver_to_car (id_cardriver, id_car, date_trip) \n" +
-            "select id_cardriver, id_car, :date from tin_cardriver, tin_car where tin_cardriver.pesel = :pesel and tin_car.registration_num = :registr_num";
+            "values(:id_cardriver, :id_car, :date_trip)";
 
     private final static String UPDATE_RESERVATION = "update tin_reservation set id_driver_to_car = :id_driver_to_car where id_reservation = :id_reservation";
 
@@ -53,9 +53,9 @@ public class StandardAdminDao extends NamedParameterJdbcDaoSupport implements Ad
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
 
-        mapSqlParameterSource.addValue("pesel", carDriverReservationRespDto.getPesel())
-                .addValue("registr_num", carDriverReservationRespDto.getRegistr_num())
-                .addValue("date", carDriverReservationRespDto.getDate());
+        mapSqlParameterSource.addValue("id_cardriver", carDriverReservationRespDto.getIdCarDriver())
+                .addValue("id_car", carDriverReservationRespDto.getIdCar())
+                .addValue("date_trip", carDriverReservationRespDto.getDate());
 
         try {
             getNamedParameterJdbcTemplate().update(ADD_CAR_DRIVER, mapSqlParameterSource, keyHolder);

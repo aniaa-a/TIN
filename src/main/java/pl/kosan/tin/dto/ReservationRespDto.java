@@ -10,9 +10,10 @@ public class ReservationRespDto {
     private String city;
     private Date dateTrip;
     private ReservationStatus status;
-    private String registration_num;
-    private String surnameClient;
-    private String peselClient;
+    private Long carId;
+    private Long driverId;
+    private String email;
+
 
     public Long getIdReservation() {
         return idReservation;
@@ -46,27 +47,27 @@ public class ReservationRespDto {
         this.status = status;
     }
 
-    public String getRegistration_num() {
-        return registration_num;
+    public Long getCarId() {
+        return carId;
     }
 
-    public void setRegistration_num(String registration_num) {
-        this.registration_num = registration_num;
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 
-    public String getSurnameClient() {
-        return surnameClient;
+    public Long getDriverId() {
+        return driverId;
     }
 
-    public void setSurnameClient(String surnameClient) {
-        this.surnameClient = surnameClient;
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
     }
 
-    public String getPeselClient() {
-        return peselClient;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPeselClient(String peselClient) {
-        this.peselClient = peselClient;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

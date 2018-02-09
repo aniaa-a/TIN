@@ -84,7 +84,7 @@ class AdminEditPopup {
         let html = '';
 
         for (let driver of drivers) {
-            html += `<option value="${driver.carDriverId}">${driver.name} ${driver.surname} | cena: ${driver.salary} zł</option>`
+            html += `<option value="${driver.carDriverId}">${driver.name} ${driver.surname}</option>`
         }
         this.form.drivers.innerHTML = html;
     }

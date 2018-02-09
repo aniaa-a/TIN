@@ -12,6 +12,7 @@ class AdminService {
                 button = `<button type="button" data-role="edit" data-reservation="${reservation.idReservation}">Edytuj</button>`;
 
             tr.id = reservation.idReservation;
+            tr.appendChild(this.cellTemplate('email', reservation.email));
             tr.appendChild(this.cellTemplate('city', reservation.city));
             tr.appendChild(this.cellTemplate('date', reservation.dateTrip));
             tr.appendChild(this.cellTemplate('driver', reservation.driver || 'Brak'));

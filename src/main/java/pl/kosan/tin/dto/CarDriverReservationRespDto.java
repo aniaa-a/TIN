@@ -5,25 +5,25 @@ import java.util.Date;
 public class CarDriverReservationRespDto {
 
 
-    private String pesel;
-    private String registr_num;
+    private Long idCar;
+    private Long idCarDriver;
     private String date;
     private Long idReservation;
 
-    public String getPesel() {
-        return pesel;
+    public Long getIdCar() {
+        return idCar;
     }
 
-    public void setPesel(String pesel) {
-        this.pesel = pesel;
+    public void setIdCar(Long idCar) {
+        this.idCar = idCar;
     }
 
-    public String getRegistr_num() {
-        return registr_num;
+    public Long getIdCarDriver() {
+        return idCarDriver;
     }
 
-    public void setRegistr_num(String registr_num) {
-        this.registr_num = registr_num;
+    public void setIdCarDriver(Long idCarDriver) {
+        this.idCarDriver = idCarDriver;
     }
 
     public String getDate() {
@@ -40,15 +40,5 @@ public class CarDriverReservationRespDto {
 
     public void setIdReservation(Long idReservation) {
         this.idReservation = idReservation;
-    }
-
-    @Override
-    public String toString() {
-        return "CarDriverReservationRespDto{" +
-                "pesel='" + pesel + '\'' +
-                ", registr_num='" + registr_num + '\'' +
-                ", date=" + date +
-                ", idReservation=" + idReservation +
-                '}';
     }
 }
