@@ -1,7 +1,8 @@
 (function () {
     const model = new Model();
     const app = new App('#container', model);
-    const router = new Router(app);
+    const router = new Router(app, model);
+    const logOutBtn = document.querySelector('#sign-out');
 
     app.addComponent({
         name: 'home',
@@ -57,27 +58,23 @@
     router.addRoute('login', '^#/login$');
     router.addRoute('register', '^#/register$');
 
+    logOutBtn.addEventListener('click', () => model.logOut());
 
     model.checkIfLogged();
 
-    model.logInEvent.attach(setNavigation);
-    model.registeredEvent.attach(function() {
-        alert('Zarejestrowa\u0142e\u015B si\u0119!');
-        location.hash = '/home';
-    });
-    model.reservationEvent.attach(function() {
+    model.authorizationEvent.attach(setNavigation);
+    model.reservationEvent.attach(() => {
         alert('Rezerwacja z\u0142o\u017Cona!');
         location.hash = '/home';
     });
 
-    setNavigation(model.isLogged);
     window.dispatchEvent(new Event('hashchange'));
 
     function tripController() {
         const reservationBtn = document.querySelector('#reservationButton');
         const reservationPrice = document.querySelector('#tripPrice');
 
-        reservationBtn.addEventListener('click', function () {
+        reservationBtn.addEventListener('click', function() {
             model.setTrip({
                 city: this.dataset.reservation,
                 price: reservationPrice.dataset.price

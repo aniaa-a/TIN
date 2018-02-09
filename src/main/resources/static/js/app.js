@@ -21,11 +21,11 @@ class App {
         this.model.getTemplate(this.currentComponent.templateUrl);
     }
     showComponentWithAuthorization(name) {
-        if (this.model.isLogged) {
+        if (this.model.isLogged && this.model.currentTrip.city) {
             this.showComponent(name);
         } else {
             window.history.back();
-            alert('Musisz by\u0107 zalogowany aby z\u0142o\u017Cy\u0107 rezerwacj\u0119');
+            alert('Zaloguj si\u0119 i wybierz wycieczk\u0119 aby z\u0142o\u017Cy\u0107 rezerwacj\u0119');
         }
     }
     updateView(template) {

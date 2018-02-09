@@ -1,91 +1,81 @@
 class AdminModel {
     constructor() {
+        this.getDataEvent = new AppEvent(this);
+
         this.reservations = [];
         this.cars = [];
         this.drivers = [];
         this.currentEdit = null;
     }
 
-    getReservations(callback) {
+    getData() {
+        const reservations = this.getReservations();
+        const drivers = this.getDrivers();
+        const cars = this.getCars();
+
+        Promise.all([reservations, drivers, cars])
+            .then(() => this.getDataEvent.notify())
+            .catch(error => alert(error.error));
+    }
+
+    getReservations() {
         const url = '/reservation/getAll';
 
-        fetch(url)
-        .then(response => this.checkStatus(response, 200))
-        .then(response => response.json())
-        .then(data => {
-            this.reservations = data;
-            callback(this.reservations);
-        })
-        .catch(error => alert(error));
+        return fetch(url)
+            .then(response => AdminModel.checkStatus(response, 200))
+            .then(response => response.json())
+            .then(data => {
+                this.reservations = data;
+            });
     }
 
-    getDrivers(callback) {
+    getDrivers() {
         const url = '/driver/getAll';
 
-        fetch(url)
-            .then(response => this.checkStatus(response, 200))
+        return fetch(url)
+            .then(response => AdminModel.checkStatus(response, 200))
             .then(response => response.json())
-            .then(data => {
-                this.drivers = data.listCarDriver;
-                callback(this.drivers);
-            })
-            .catch(error => alert(error));
+            .then(data => this.drivers = data.listCarDriver);
     }
 
-    getCars(callback) {
+    getCars() {
         const url = '/car/getAll';
 
-        fetch(url)
-            .then(response => this.checkStatus(response, 200))
+        return fetch(url)
+            .then(response => AdminModel.checkStatus(response, 200))
             .then(response => response.json())
-            .then(data => {
-                this.cars = data.carList;
-                callback(this.cars);
-            })
-            .catch(error => alert(error));
+            .then(data => this.cars = data.carList);
     }
 
-    checkStatus(response, status) {
+    findReservationById(id) {
+        return this.reservations.filter(reservation => ('' + reservation.idReservation) === id)[0];
+    }
+
+    deleteReservation(id) {
+        const url = `/reservation/delete?id=${id}`;
+
+        fetch(url, {method: 'DELETE'})
+            .then(response => AdminModel.checkStatus(response, 200))
+            .then(() => this.getReservations())
+            .then(() => this.getDataEvent.notify())
+            .catch(error => alert(error.error));
+    }
+
+    updateReservation(body) {
+        const url = '/admin/addCarDriver';
+
+        fetch(url, {method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+            .then(response => AdminModel.checkStatus(response, 200))
+            .then(() => this.getReservations())
+            .then(() => this.getDataEvent.notify())
+            .catch(error => alert(error.error));
+    }
+
+    static checkStatus(response, status) {
         if (response.status === status) {
             return Promise.resolve(response);
         } else {
             return Promise.reject(new Error(response.statusText));
         }
-    }
-}
-
-class AdminEditPopup {
-    constructor (selector) {
-        this.element = document.querySelector(selector);
-        this.cancel = this.element.querySelector('#cancelEdit');
-        this.form = this.element.querySelector('#editForm');
-        this.cancel.addEventListener('click', this.hide.bind(this));
-    }
-
-    show() {
-        this.element.hidden = false;
-    }
-
-    hide() {
-        this.element.hidden = true;
-        this.form.reset();
-    }
-
-    setCars(cars) {
-        let html = '';
-
-        for (let car of cars) {
-            html += `<option value="${car.carId}">${car.brand} | ilość miejsc: ${car.carSeats}</option>`;
-        }
-        this.form.cars.innerHTML = html;
-    }
-
-    setDrivers(drivers) {
-        let html = '';
-
-        for (let driver of drivers) {
-            html += `<option value="${driver.carDriverId}">${driver.name} ${driver.surname}</option>`
-        }
-        this.form.drivers.innerHTML = html;
     }
 }

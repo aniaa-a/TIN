@@ -14,17 +14,19 @@
     <form id="editForm">
         <div class="form-group">
             <label for="drivers">Wybierz kierowcę</label>
-            <select name="drivers" id="drivers"></select>
+            <select name="drivers" id="drivers" required></select>
         </div>
         <div class="form-group">
             <label for="cars">Wybierz samochód</label>
-            <select name="cars" id="cars"></select>
+            <select name="cars" id="cars" required></select>
         </div>
         <button class="btn cancelbtn" type="button" id="cancelEdit">Anuluj</button>
         <button class="btn" type="submit">Zapisz</button>
     </form>
 </div>
 
+<script src="../js/event.js"></script>
+<script src="../js/admin/admin.popup.js"></script>
 <script src="../js/admin/admin.service.js"></script>
 <script src="../js/admin/admin.model.js"></script>
 <script src="../js/admin/admin.js"></script>

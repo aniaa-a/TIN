@@ -1,7 +1,7 @@
 class AdminService {
     constructor() {}
 
-    getTableTemplate(reservations) {
+    getTableTemplate(reservations, drivers, cars) {
         const table = document.createElement('table');
 
         table.id = 'reservationsTable';
@@ -9,25 +9,50 @@ class AdminService {
 
         for (let reservation of reservations) {
             let tr = document.createElement('tr'),
-                button = `<button type="button" data-role="edit" data-reservation="${reservation.idReservation}">Edytuj</button>`;
+                driver = this.getDriver(reservation.driverId, drivers),
+                car = this.getCar(reservation.carId, cars),
+                edit = `<button type="button" data-role="edit" data-reservation="${reservation.idReservation}">Edytuj</button>`,
+                remove = `<button type="button" data-role="remove" data-reservation="${reservation.idReservation}">Kasuj</button>`;
 
             tr.id = reservation.idReservation;
             tr.appendChild(this.cellTemplate('email', reservation.email));
             tr.appendChild(this.cellTemplate('city', reservation.city));
             tr.appendChild(this.cellTemplate('date', reservation.dateTrip));
-            tr.appendChild(this.cellTemplate('driver', reservation.driver || 'Brak'));
-            tr.appendChild(this.cellTemplate('car', reservation.car || 'Brak'));
+            tr.appendChild(this.cellTemplate('driver', driver));
+            tr.appendChild(this.cellTemplate('car', car));
             tr.appendChild(this.cellTemplate('status', reservation.status));
-            tr.appendChild(this.cellTemplate('cell-edit', button));
+            tr.appendChild(this.cellTemplate('cell-edit', edit));
+            tr.appendChild(this.cellTemplate('cell-remove', remove));
             table.appendChild(tr);
         }
 
         return table;
     }
 
+    getDriver(idDriver, drivers) {
+        let driver = drivers.filter(driver => driver.carDriverId === idDriver)[0];
+
+        if (driver) {
+            return `${driver.name} ${driver.surname}`;
+        } else {
+            return 'Brak'
+        }
+    }
+
+    getCar(idCar, cars) {
+        let car = cars.filter(car => car.carId === idCar)[0];
+
+        if (car) {
+            return `${car.brand} | ${car.registrationNum}`;
+        } else {
+            return 'Brak'
+        }
+    };
+
     tableHeaderTemplate() {
         return `
             <tr>
+                <th>E-mail</th>
                 <th>Miasto</th>
                 <th>Data</th>
                 <th>Kierowca</th>

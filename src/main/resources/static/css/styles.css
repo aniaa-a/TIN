@@ -227,7 +227,8 @@ th, td {
     padding: 10px 20px;
 }
 
-.cell-edit {
+.cell-edit,
+.cell-remove {
     padding-left: 20px;
     border: 0;
 }
@@ -238,7 +239,7 @@ th, td {
 }
 
 .popup {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
