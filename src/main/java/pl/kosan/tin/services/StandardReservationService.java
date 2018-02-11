@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.kosan.tin.dao.ReservationDao;
 import pl.kosan.tin.dao.TripDao;
 import pl.kosan.tin.dao.UserDao;
+import pl.kosan.tin.dto.ReservationPerUserDto;
 import pl.kosan.tin.dto.ReservationRespDto;
 import pl.kosan.tin.dto.UserReservationRespDto;
 import pl.kosan.tin.model.Car;
@@ -64,5 +65,20 @@ public class StandardReservationService implements ReservationService {
     public void deleteReservationById(Long reservationId){
 
         reservationDao.deleteReservationById(reservationId);
+    }
+
+    @Override
+    public List<ReservationPerUserDto> findReservationByUser(Long userId){
+
+        List<ReservationPerUserDto> resList = new ArrayList<ReservationPerUserDto>();
+
+        Optional<List<ReservationPerUserDto>> optListRes = reservationDao.findReservationByUser(userId);
+
+        if (optListRes.isPresent()) {
+            resList = optListRes.get();
+        }
+
+
+        return resList;
     }
 }

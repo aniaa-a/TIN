@@ -1,5 +1,6 @@
 package pl.kosan.tin.controller;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserController {
 
 
         UserResponseDto userResponseDto = new UserResponseDto();
-
+        LOGGER.info("haslo register: "+ user.getPassword());
         if (userService.findUserByMail(user.getEmail()) != null) {
             response.setStatus(200);
             userResponseDto.setStatus("mail istnieje w bazie");
@@ -46,7 +47,10 @@ public class UserController {
                                      @RequestParam(defaultValue = "password") String password) {
         HttpSession session = req.getSession();
         UserResponseDto userResponseDto = new UserResponseDto();
+
         User user = userService.findUserByMailAndPass(email, password);
+
+
         if (user != null) {
             session.setAttribute("user", email);
            LOGGER.info("id sesji: " +session.getId() + " log: "+ session.getAttribute("user"));

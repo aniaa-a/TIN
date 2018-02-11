@@ -5,7 +5,7 @@ class AdminService {
         const table = document.createElement('table');
 
         table.id = 'reservationsTable';
-        table.innerHTML = this.tableHeaderTemplate();  //iner zastepuje string  a append dodaje do DOM
+        table.innerHTML = this.tableHeaderTemplate();  
 
         for (let reservation of reservations) {
             let tr = document.createElement('tr'),

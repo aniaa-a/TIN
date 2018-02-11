@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import pl.kosan.tin.dto.ReservationPerUserDto;
 import pl.kosan.tin.dto.ReservationRespDto;
 import pl.kosan.tin.model.CarDriver;
 import pl.kosan.tin.model.DriverToCar;
@@ -34,6 +35,8 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
             "join tin_trip c on a.id_trip = c.id_trip join tin_user d on a.id_user = d.id_user";
 
     private final static String DELETE_RESERVATION = "delete from tin_reservation where id_reservation = :idReservation";
+
+    private final static String FIND_RESERVATION_BY_USER ="select a.id_reservation, b.city, a.date_trip, a.status, a.num_people, b.price from tin_reservation a , tin_trip b where a.id_trip = b.id_trip and  id_user = :id";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -78,6 +81,32 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     @Override
     public Reservation findReservationById(Long reservationId) {
         return null;
+    }
+
+    @Override
+    public Optional<List<ReservationPerUserDto>> findReservationByUser(Long userId) {
+
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("userId", userId);
+        try {
+            return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_BY_USER,
+                    mapSqlParameterSource, (rs, rowNum) -> {
+                        ReservationPerUserDto reservationPerUserDto = new ReservationPerUserDto();
+                        reservationPerUserDto.setIdReservation(rs.getLong("id_reservation"));
+                        reservationPerUserDto.setCity(rs.getString("city"));
+                        reservationPerUserDto.setDateTrip(rs.getString("date_trip"));
+                        reservationPerUserDto.setNumPeople(rs.getInt("num_people"));
+                        reservationPerUserDto.setPricePerPerson(rs.getString("price_person"));
+                        return reservationPerUserDto;
+
+                    }));
+
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override

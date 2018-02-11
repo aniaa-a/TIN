@@ -9,11 +9,11 @@
 
 
     editForm.addEventListener('submit', function(e) {
-        e.preventDefault();  //powstrzyanie
+        e.preventDefault();
 
         let reservationDate = admin.findReservationById(admin.currentEdit).dateTrip;
         let body = {
-            idCar: this.cars.value,   //na edit form
+            idCar: this.cars.value,
             idCarDriver: this.drivers.value,
             date: reservationDate,
             idReservation: admin.currentEdit

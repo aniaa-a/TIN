@@ -1,5 +1,6 @@
 package pl.kosan.tin.services;
 
+import pl.kosan.tin.dto.ReservationPerUserDto;
 import pl.kosan.tin.dto.ReservationRespDto;
 import pl.kosan.tin.dto.UserReservationRespDto;
 import pl.kosan.tin.model.Reservation;
@@ -14,4 +15,6 @@ public interface ReservationService {
     List<ReservationRespDto> getAllReservations();
 
     void deleteReservationById(Long reservationId);
+
+    List<ReservationPerUserDto> findReservationByUser(Long userId);
 }

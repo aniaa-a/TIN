@@ -2,11 +2,12 @@ package pl.kosan.tin.model;
 
 public class Trip {
 
-    Long tripId;
-    String city;
-    String departureTime;
-    String arriveTime;
-    Double pricePerPerson;
+    private Long tripId;
+    private String city;
+    private  String departureTime;
+    private String arriveTime;
+    private String content;
+    private Double pricePerPerson;
 
     public Trip() {
     }
@@ -17,6 +18,14 @@ public class Trip {
         this.departureTime = departureTime;
         this.arriveTime = arriveTime;
         this.pricePerPerson = pricePerPerson;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Long getTripId() {

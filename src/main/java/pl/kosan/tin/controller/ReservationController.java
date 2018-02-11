@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.kosan.tin.dto.ReservationPerUserDto;
 import pl.kosan.tin.dto.ReservationRespDto;
 import pl.kosan.tin.dto.UserReservationRespDto;
 import pl.kosan.tin.model.Car;
@@ -49,7 +50,13 @@ public class ReservationController {
         reservationService.deleteReservationById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, value = "/getByUser")
+    public List<ReservationPerUserDto> getAllReservation(@RequestParam Long id) {
 
+        return reservationService.findReservationByUser(id);
+
+    }
 
 
 }
