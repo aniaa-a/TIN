@@ -11,6 +11,24 @@ public class ReservationPerUserDto {
     private String dateTrip;
     private String pricePerPerson;
     private Integer numPeople;
+    private String arriveTime;
+    private String departureTime;
+
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getArriveTime() {
+        return arriveTime;
+    }
+
+    public void setArriveTime(String arriveTime) {
+        this.arriveTime = arriveTime;
+    }
 
     public Long getIdReservation() {
         return idReservation;

@@ -36,7 +36,7 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
 
     private final static String DELETE_RESERVATION = "delete from tin_reservation where id_reservation = :idReservation";
 
-    private final static String FIND_RESERVATION_BY_USER ="select a.id_reservation, b.city, a.date_trip, a.status, a.num_people, b.price from tin_reservation a , tin_trip b where a.id_trip = b.id_trip and  id_user = :id";
+    private final static String FIND_RESERVATION_BY_USER ="select a.id_reservation, b.city, a.date_trip, a.status, a.num_people, b.price_person, b.arrive_time, b.departure_time from tin_reservation a , tin_trip b where a.id_trip = b.id_trip and  id_user = :id";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -86,20 +86,21 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     @Override
     public Optional<List<ReservationPerUserDto>> findReservationByUser(Long userId) {
 
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("userId", userId);
-        try {
-            return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_BY_USER,
-                    mapSqlParameterSource, (rs, rowNum) -> {
-                        ReservationPerUserDto reservationPerUserDto = new ReservationPerUserDto();
-                        reservationPerUserDto.setIdReservation(rs.getLong("id_reservation"));
-                        reservationPerUserDto.setCity(rs.getString("city"));
-                        reservationPerUserDto.setDateTrip(rs.getString("date_trip"));
-                        reservationPerUserDto.setNumPeople(rs.getInt("num_people"));
-                        reservationPerUserDto.setPricePerPerson(rs.getString("price_person"));
-                        return reservationPerUserDto;
+            MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+            mapSqlParameterSource.addValue("id", userId);
+            try {
+                return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_BY_USER, mapSqlParameterSource, (rs, rowNum) -> {
+                    ReservationPerUserDto reservationPerUserDto = new ReservationPerUserDto();
+                    reservationPerUserDto.setIdReservation(rs.getLong("id_reservation"));
+                    reservationPerUserDto.setCity(rs.getString("city"));
+                    reservationPerUserDto.setDateTrip(rs.getString("date_trip"));
+                    reservationPerUserDto.setNumPeople(rs.getInt("num_people"));
+                    reservationPerUserDto.setPricePerPerson(rs.getString("price_person"));
+                    reservationPerUserDto.setArriveTime(rs.getString("arrive_time"));
+                    reservationPerUserDto.setDepartureTime(rs.getString("departure_time"));
+                    return reservationPerUserDto;
+                }));
 
-                    }));
 
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
