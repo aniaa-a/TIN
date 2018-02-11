@@ -6,7 +6,7 @@ class AdminEditPopup {
         this.cancel.addEventListener('click', this.hide.bind(this));
     }
 
-    show(reservation) {
+    show(reservation) {  //przy edytuj
         const driverOptions = Array.from(this.form.drivers.children);
         const carOptions = Array.from(this.form.cars.children);
 

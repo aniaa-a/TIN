@@ -19,6 +19,8 @@ class Router {
             } else {
                 this.app.showComponent(route.name);
             }
+        } else {
+            location.hash = '#/home'
         }
     }
 }

@@ -6,10 +6,7 @@
 
     app.addComponent({
         name: 'home',
-        templateUrl: './templates/home.html',
-        view() {
-            return 'home';
-        }
+        templateUrl: './templates/home.html'
     });
     app.addComponent({
         name: 'cracow',
@@ -33,10 +30,7 @@
     });
     app.addComponent({
         name: 'contact',
-        templateUrl: './templates/contact.html',
-        view() {
-            return 'contact';
-        }
+        templateUrl: './templates/contact.html'
     });
     app.addComponent({
         name: 'login',

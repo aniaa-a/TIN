@@ -1,6 +1,5 @@
 package pl.kosan.tin.dto;
 
-import java.util.Date;
 
 public class CarDriverReservationRespDto {
 

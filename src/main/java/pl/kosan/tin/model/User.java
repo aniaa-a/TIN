@@ -1,5 +1,7 @@
 package pl.kosan.tin.model;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.Date;
 
 public class User {
@@ -10,7 +12,9 @@ public class User {
     private String identityNum;
     private String email;
     private String phone;
-    private String password;  //to do hash
+    private String password;
+
+    String salt = BCrypt.gensalt(12);
 
     public User() {
     }
@@ -74,14 +78,15 @@ public class User {
 
     public String getPassword() {
 
-        //to do hash
-        return password;
+
+        return BCrypt.hashpw(password, salt);
+       // return password;
     }
 
     public void setPassword(String password) {
 
-        //to do hash
-        this.password = password;
+        this.password =  BCrypt.hashpw(password, salt);
+       // this.password = password;
     }
 
     @Override
