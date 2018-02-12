@@ -45,7 +45,7 @@ class UserReservations {
                 <tr>
                     <td>${reservation.city}</td>
                     <td>${reservation.dateTrip}</td>
-                    <td>${reservation. departureTime}</td>
+                    <td>${reservation.departureTime}</td>
                     <td>${reservation.arriveTime}</td>
                     <td>${reservation.numPeople}</td>
                     <td>${reservation.pricePerPerson} zł</td>

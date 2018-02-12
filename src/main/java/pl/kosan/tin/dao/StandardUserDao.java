@@ -11,8 +11,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pl.kosan.tin.model.User;
+import pl.kosan.tin.util.Utils;
 
 import javax.sql.DataSource;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +25,9 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     private final static String INSERT_USER = "INSERT INTO tin_user(user_name, user_surname, identity_document, email, phone, password)" +
             "VALUES(:name, :surname, :identity_document, :email, :phone, :password)";
-    private final static String FIND_USER_BY_ID = "SELECT id_user, user_name, user_surname, identity_document, email, phone from tin_user where id_user = :id_user";
-    private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password from tin_user where email = :email AND password = :password";
-    private final static String FIND_USER_BY_MAIL = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password from tin_user where email = :email";
+    private final static String FIND_USER_BY_ID = "SELECT id_user, user_name, user_surname, identity_document, email, phone, role from tin_user where id_user = :id_user";
+    private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password, role from tin_user where email = :email AND password = :password";
+    private final static String FIND_USER_BY_MAIL = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password, role from tin_user where email = :email";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -34,7 +36,13 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     @Override
     public void insertUser(User user) {
-
+        String pass = "";
+        try {
+            pass = Utils.cryptPass(user.getPassword());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        user.setPassword(pass);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -42,7 +50,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
         mapSqlParameterSource.addValue("name", user.getName())
                 .addValue("surname", user.getSurname()).addValue("identity_document", user.getIdentityNum())
                 .addValue("email", user.getEmail()).addValue("phone", user.getPhone())
-                .addValue("password", user.getPassword());
+                .addValue("password", pass);
         try {
             getNamedParameterJdbcTemplate().update(INSERT_USER, mapSqlParameterSource, keyHolder);
             user.setIdUser((keyHolder.getKey().longValue()));
@@ -79,6 +87,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
                         user.setIdentityNum(rs.getString("identity_document"));
                         user.setEmail(rs.getString("email"));
                         user.setPhone(rs.getString("phone"));
+                        user.setRole(rs.getString("role"));
 
                         return user;
                     });
@@ -93,8 +102,14 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
 
     @Override
     public User findUserByMailAndPass(String email, String password) {
+        String pass = "";
+        try {
+            pass = Utils.cryptPass(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("email", email).addValue("password", password);
+        mapSqlParameterSource.addValue("email", email).addValue("password", pass);
         try {
             return getNamedParameterJdbcTemplate().queryForObject(FIND_USER_BY_MAIL_AND_PASS, mapSqlParameterSource,
                     (rs, rowNum) -> {
@@ -106,6 +121,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
                         user.setEmail(rs.getString("email"));
                         user.setPhone(rs.getString("phone"));
                         user.setPassword(rs.getString("password"));
+                        user.setRole(rs.getString("role"));
                         return user;
                     });
 
@@ -132,6 +148,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
                         user.setEmail(rs.getString("email"));
                         user.setPhone(rs.getString("phone"));
                         user.setPassword(rs.getString("password"));
+                        user.setRole(rs.getString("role"));
                         return user;
                     });
 

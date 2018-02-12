@@ -1,6 +1,9 @@
 package pl.kosan.tin.model;
 
 import org.mindrot.jbcrypt.BCrypt;
+import pl.kosan.tin.util.Utils;
+
+import java.security.NoSuchAlgorithmException;
 
 public class User {
 
@@ -20,8 +23,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    String salt = BCrypt.gensalt(12);
 
     public User() {
     }
@@ -85,15 +86,16 @@ public class User {
 
     public String getPassword() {
 
-
-       // return BCrypt.hashpw(password, salt);
+       /* try {
+            this.password = Utils.cryptPass(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }*/
         return password;
     }
 
-    public void setPassword(String password) {
-
-       // this.password =  BCrypt.hashpw(password, salt);
-        this.password = password;
+    public void setPassword(String password)  {
+         this.password = password;
     }
 
     @Override

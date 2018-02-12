@@ -31,10 +31,12 @@ class Trip {
         const header = this.element.querySelector('#tripHeader');
         const price = this.element.querySelector('#tripPrice');
         const content = this.element.querySelector('#tripContent');
+        const time = this.element.querySelector('#time');
         const link = this.element.querySelector('#reservationLink');
 
         header.innerHTML = this.trip.city;
         price.innerHTML = `Cena za osob\u0119: ${this.trip.pricePerPerson} z\u0142`;
+        time.innerHTML = `godzina wyjazdu: ${this.trip.departureTime}   godzina powrotu:  ${this.trip.arriveTime}`;
         content.innerHTML = this.trip.content;
         link.href = `#/reservation/${this.trip.tripId}`;
     }
