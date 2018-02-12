@@ -1,6 +1,6 @@
 class Trips {
     constructor(selector) {
-        this.form = document.querySelector(selector);
+        this.element = document.querySelector(selector);
         this.trips = [];
         this.tripsLoaded = new AppEvent(this);
     }
@@ -27,18 +27,14 @@ class Trips {
     }
 
     updateView() {
-        this.form.trips.innerHTML = Trips.getOptionsTemplate(this.trips);
+        this.element.innerHTML = Trips.getTemplate(this.trips);
     }
 
-    getForm() {
-        return this.form;
-    }
-
-    static getOptionsTemplate(trips) {
+    static getTemplate(trips) {
         let template = '';
 
         trips.forEach(trip => {
-            template += `<option value="${trip.tripId}">${trip.city}</option>`;
+            template += `<li><a href="#/trip/${trip.tripId}">${trip.city}</a></li>`;
         });
 
         return template;

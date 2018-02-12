@@ -66,18 +66,11 @@
     window.dispatchEvent(new Event('hashchange'));
 
     function tripsController() {
-        const trips = new Trips('#tripForm');
+        const trips = new Trips('#tripsList');
 
         trips.loadTrips();
         trips.tripsLoaded.attach(() => {
             trips.updateView();
-        });
-
-        trips.getForm().addEventListener('submit', function(e){
-            e.preventDefault();
-
-            // przechodzimy do widoku konkretnej wycieczki o id wybranym w select (this.trips.value)
-            location.hash = `/trip/${this.trips.value}`;
         });
     }
 

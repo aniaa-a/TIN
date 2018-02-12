@@ -199,7 +199,7 @@ footer {
 .trip-background {
     position: relative;
     height: 540px;
-    background: url('../images/trip.jpg') 0 -201px/cover no-repeat;
+    background: url('../images/trip.jpg') center/cover no-repeat;
 }
 
 .trip-background h2 {
@@ -264,4 +264,20 @@ th, td {
     -webkit-transform: translate(-50%, -50%);
     width: 550px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
+}
+
+.trips-list li {
+    margin: 10px 0;
+}
+
+.trips-list a {
+    display: inline-block;
+    padding: 0.1em 1em;
+    color: #000;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.trips-list a:hover {
+    text-decoration: underline;
 }
