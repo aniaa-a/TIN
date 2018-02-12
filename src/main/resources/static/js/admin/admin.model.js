@@ -1,6 +1,7 @@
 class AdminModel {
     constructor() {
         this.getDataEvent = new AppEvent(this);
+        this.authorizationEvent = new AppEvent(this);
 
         this.reservations = [];
         this.cars = [];
@@ -16,6 +17,34 @@ class AdminModel {
         Promise.all([reservations, drivers, cars])
             .then(() => this.getDataEvent.notify())
             .catch(error => alert(error.error));
+    }
+
+    checkIfLogged() {
+        const url = '/user/isLogged';
+
+        fetch(url, {credentials: 'same-origin'})
+            .then(response => {
+                if (response.status === 200) {
+                    return Promise.resolve(response);
+                } else {
+                    return Promise.reject(new Error(response.statusText));
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // jezeli jest zalogowany i ma role admin to go wpuszczamy
+                if (data.user && data.user.role === 'admin') {
+                    this.authorizationEvent.notify();
+                } else {
+                    // jezeli nie jest zalogowany albo nie ma admina to wraca na strone glowna
+                    window.location = window.location.origin;
+                }
+            })
+            .catch((error) => {
+                alert(error);
+                // jezeli wystapil blad to go rowniez cofamy
+                window.location = window.location.origin;
+            });
     }
 
     getReservations() {

@@ -9,18 +9,13 @@
         templateUrl: './templates/home.html'
     });
     app.addComponent({
-        name: 'cracow',
-        templateUrl: './templates/cracow.html',
-        controller: tripController
+        name: 'trips',
+        templateUrl: './templates/trips.html',
+        controller: tripsController
     });
     app.addComponent({
-        name: 'warsaw',
-        templateUrl: './templates/warsaw.html',
-        controller: tripController
-    });
-    app.addComponent({
-        name: 'zakopane',
-        templateUrl: './templates/zakopane.html',
+        name: 'trip',
+        templateUrl: './templates/trip.html',
         controller: tripController
     });
     app.addComponent({
@@ -42,66 +37,65 @@
         templateUrl: './templates/register.html',
         controller: registerController
     });
+    app.addComponent({
+        name: 'addTrip',
+        templateUrl: './templates/addTrip.html',
+        controller: addTripController
+    });
+    app.addComponent({
+        name: 'userReservations',
+        templateUrl: './templates/userReservations.html',
+        controller: userReservationsController
+    });
 
     router.addRoute('home', '^#/home$');
-    router.addRoute('cracow', '^#/cracow$');
-    router.addRoute('warsaw', '^#/warsaw$');
-    router.addRoute('zakopane', '^#/zakopane$');
-    router.addRoute('reservation', '^#/reservation$', true);
+    router.addRoute('trips', '^#/trips$');
+    router.addRoute('trip', '^#/trip/([0-9]*)$');
+    router.addRoute('reservation', '^#/reservation/([0-9]*)$', {scope: 'login'});
     router.addRoute('contact', '^#/contact$');
+    router.addRoute('userReservations', '^#/userReservations$', {scope: 'login'});
     router.addRoute('login', '^#/login$');
     router.addRoute('register', '^#/register$');
+    router.addRoute('addTrip', '^#/addTrip', {scope: 'admin'});
 
     logOutBtn.addEventListener('click', () => model.logOut());
 
     model.checkIfLogged();
-
     model.authorizationEvent.attach(setNavigation);
-    model.reservationEvent.attach(() => {
-        alert('Rezerwacja z\u0142o\u017Cona!');
-        location.hash = '/home';
-    });
 
     window.dispatchEvent(new Event('hashchange'));
 
-    function tripController() {
-        const reservationBtn = document.querySelector('#reservationButton');
-        const reservationPrice = document.querySelector('#tripPrice');
+    function tripsController() {
+        const trips = new Trips('#tripForm');
 
-        reservationBtn.addEventListener('click', function() {
-            model.setTrip({
-                city: this.dataset.reservation,
-                price: reservationPrice.dataset.price
-            });
+        trips.loadTrips();
+        trips.tripsLoaded.attach(() => {
+            trips.updateView();
+        });
+
+        trips.getForm().addEventListener('submit', function(e){
+            e.preventDefault();
+
+            // przechodzimy do widoku konkretnej wycieczki o id wybranym w select (this.trips.value)
+            location.hash = `/trip/${this.trips.value}`;
+        });
+    }
+
+    function tripController() {
+        const trip = new Trip('.trip');
+
+        trip.loadData(router.getParam());
+        trip.loadDataEvent.attach(function() {
+            trip.updateView();
         });
     }
 
     function reservationController() {
-        const form = document.querySelector('#formReservation');
-        const priceInfo = document.querySelector('#reservationTripPrice').children[0];
+        const reservation = new Reservation('#formReservation');
 
-        form.city.value = model.currentTrip.city;
-        form.dateTrip.min = (new Date()).toISOString().split('T')[0];
-        priceInfo.innerText = `${model.currentTrip.price} zł`;
-        form.mailUser.value = model.user.email;
-
-        if (model.user.phone) {
-            form.phoneUser.value = model.user.phone;
-            form.phoneUser.disabled = true;
-        }
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const reservation = {
-                city: this.city.value,
-                dateTrip: this.dateTrip.value,
-                mailUser: this.mailUser.value,
-                numPeople: Number(this.numPeople.value),
-                pricePerPerson: Number(model.currentTrip.price)
-            };
-
-            model.sendReservation(reservation);
+        reservation.loadData(router.getParam());
+        reservation.loadDataEvent.attach(function() {
+            reservation.updateView(model.getUser());
         });
     }
 
@@ -140,15 +134,32 @@
         });
     }
 
-    function setNavigation(isLogged) {
+    function addTripController() {
+        new AddTrip('#addTripFrom');
+    }
+
+    function userReservationsController() {
+        const userReservations = new UserReservations('#userReservations');
+
+        userReservations.loadReservations(model.getUser().idUser);
+        userReservations.loadReservationsEvent.attach(() => userReservations.renderReservations());
+    }
+
+    function setNavigation(auhorizationInfo) {
         const accessContainer = document.querySelector('.nav-access');
         const userLogin = document.querySelector('.user-login');
         const logoutContainer = document.querySelector('.sign-out');
+        const adminLink = document.querySelector('#adminLink');
+        const addTrip = document.querySelector('#addTrip');
+        const userReservations = document.querySelector('#userReservationsLink');
 
-        accessContainer.hidden = isLogged;
-        logoutContainer.hidden = !isLogged;
+        accessContainer.hidden = auhorizationInfo.isLogged;
+        logoutContainer.hidden = !auhorizationInfo.isLogged;
+        userReservations.hidden = !auhorizationInfo.isLogged;
+        adminLink.hidden = !auhorizationInfo.isAdmin;
+        addTrip.hidden = !auhorizationInfo.isAdmin;
 
-        if (isLogged) {
+        if (auhorizationInfo.isLogged) {
             userLogin.innerHTML = model.user.email;
             location.hash = '/home';
         } else {

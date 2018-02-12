@@ -5,6 +5,7 @@ class App {
         this.model = model;
         this.container = document.querySelector(selector);
         this.components = {};
+        this.currentComponent = {};
 
         model.templateLoaded.attach(function(template) {
             self.updateView(template);
@@ -18,14 +19,27 @@ class App {
     }
     showComponent(name) {
         this.currentComponent = this.components[name];
-        this.model.getTemplate(this.currentComponent.templateUrl);
-    }
-    showComponentWithAuthorization(name) {
-        if (this.model.isLogged && this.model.currentTrip.city) {
-            this.showComponent(name);
+        if (this.currentComponent) {
+            this.model.getTemplate(this.currentComponent.templateUrl);
         } else {
-            window.history.back();
-            alert('Zaloguj si\u0119 i wybierz wycieczk\u0119 aby z\u0142o\u017Cy\u0107 rezerwacj\u0119');
+            this.updateView('<h2>Not Found (404)</h2>')
+        }
+    }
+    showComponentWithAuthorization(name, authorization) {
+        if (authorization.scope === 'admin') {
+            if (this.model.authorizationInfo.isAdmin) {
+                this.showComponent(name);
+            } else {
+                location.hash = '/home';
+                alert('Nie posiadasz praw admina');
+            }
+        } else {
+            if (this.model.authorizationInfo.isLogged) {
+                this.showComponent(name);
+            } else {
+                location.hash = '/home';
+                alert('Zaloguj si\u0119');
+            }
         }
     }
     updateView(template) {

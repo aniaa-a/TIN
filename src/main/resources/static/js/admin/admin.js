@@ -4,7 +4,11 @@
     const popup = new AdminEditPopup('.popup');
     const editForm = document.querySelector('#editForm');
 
-    admin.getData();
+    // sprawdzamy czy jest zalogowany
+    admin.checkIfLogged();
+
+    // jezeli jest to dopiero pobieramy dane dla tabeli
+    admin.authorizationEvent.attach(() => admin.getData());
     admin.getDataEvent.attach(setTable);
 
 

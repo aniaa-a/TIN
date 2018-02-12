@@ -1,16 +1,13 @@
 class Model {
     constructor() {
+        this.user = {};
+        this.authorizationInfo = {
+            isLogged: false,
+            isAdmin: false
+        };
+
         this.templateLoaded = new AppEvent(this);
         this.authorizationEvent = new AppEvent(this);
-        this.reservationEvent = new AppEvent(this);
-
-        this.currentTrip = {};
-        this.user = {};
-        this.isLogged = false;
-    }
-
-    setTrip(trip) {
-        this.currentTrip = trip;
     }
 
     getTemplate(url) {
@@ -21,19 +18,8 @@ class Model {
             .catch(error => alert(error));
     }
 
-    sendReservation(data) {
-        const url = '/reservation/book';
-
-        data = JSON.stringify(data);
-
-        fetch(url, {
-            method: 'POST',
-            body: data,
-            headers: {'Content-Type': 'application/json'},
-        })
-            .then(response => Model.checkStatus(response, 201))
-            .then(() => this.reservationEvent.notify())
-            .catch(error => alert(error));
+    getUser() {
+        return this.user;
     }
 
     authorizeUser(user) {
@@ -53,9 +39,10 @@ class Model {
     }
 
     logIn(user) {
-        this.isLogged = true;
+        this.authorizationInfo.isLogged = true;
+        this.authorizationInfo.isAdmin = user.role === 'admin';
         this.user = user;
-        this.authorizationEvent.notify(this.isLogged);
+        this.authorizationEvent.notify(this.authorizationInfo);
     }
 
     logOut() {
@@ -64,9 +51,11 @@ class Model {
         fetch(url, {method: 'POST', credentials: 'same-origin'})
             .then(response => Model.checkStatus(response, 200))
             .then(() => {
-                this.isLogged = false;
+                this.authorizationInfo.isLogged = false;
+                this.authorizationInfo.isAdmin = false;
                 this.user = null;
-                this.authorizationEvent.notify(this.isLogged);
+                location.hash = '/home';
+                this.authorizationEvent.notify(this.authorizationInfo);
             })
             .catch(error => alert(error));
     }
@@ -81,11 +70,11 @@ class Model {
                 if (data.status === 'ok') {
                     this.logIn(data.user);
                 } else {
-                    this.authorizationEvent.notify(this.isLogged);
+                    this.authorizationEvent.notify(this.authorizationInfo);
                 }
             })
             .catch(error => {
-                this.authorizationEvent.notify(this.isLogged);
+                this.authorizationEvent.notify(this.authorizationInfo);
                 alert(error);
             });
     }
