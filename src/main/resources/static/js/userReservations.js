@@ -31,7 +31,6 @@ class UserReservations {
     renderReservations() {
         const table = document.createElement('table');
 
-        // jezeli nie ma rezerwacji to pomijamy reszte funkcji i dodaje informacje o braku rezerwacji
         if (!this.reservations.length) {
             this.container.innerHTML = '<h2>Nie masz żadnych rezerwacji</h2>';
             return;
@@ -52,7 +51,6 @@ class UserReservations {
                 </tr>`
         }
 
-        // czyscimy kontener i dodajemy do niego tabele;
         this.container.innerHTML = '';
         this.container.appendChild(table);
     }

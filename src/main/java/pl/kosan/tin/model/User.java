@@ -1,18 +1,23 @@
 package pl.kosan.tin.model;
 
+import org.hibernate.validator.constraints.Email;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.validation.annotation.Validated;
 import pl.kosan.tin.util.Utils;
 
+import javax.validation.constraints.NotNull;
 import java.security.NoSuchAlgorithmException;
-
+@Validated
 public class User {
 
     private Long idUser;
     private String name;
     private String surname;
     private String identityNum;
+    @Email
     private String email;
     private String phone;
+    @NotNull
     private String password;
     private String role;
 

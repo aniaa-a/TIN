@@ -1,11 +1,15 @@
 package pl.kosan.tin.services;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import pl.kosan.tin.dao.ReservationDao;
 import pl.kosan.tin.dao.UserDao;
 import pl.kosan.tin.model.Reservation;
 import pl.kosan.tin.model.User;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 public class StandardUserService implements UserService {

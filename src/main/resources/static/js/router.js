@@ -15,7 +15,7 @@ class Router {
         const route = this.routes.filter(route => hash.match(new RegExp(route.url)))[0];
 
         if (route) {
-            this.params = new RegExp(route.url).exec(hash);
+            this.params = new RegExp(route.url).exec(hash); //spr exec
 
             if (route.authorization) {
                 this.app.showComponentWithAuthorization(route.name, route.authorization);

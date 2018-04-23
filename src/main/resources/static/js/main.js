@@ -86,10 +86,11 @@
     function reservationController() {
         const reservation = new Reservation('#formReservation');
 
-        reservation.loadData(router.getParam());
         reservation.loadDataEvent.attach(function() {
             reservation.updateView(model.getUser());
         });
+
+       reservation.loadData(router.getParam());
     }
 
     function loginController() {
