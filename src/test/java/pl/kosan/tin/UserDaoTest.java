@@ -1,6 +1,7 @@
 package pl.kosan.tin;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import pl.kosan.tin.model.User;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ComponentScan(basePackages = "pl.kosan.tin.dao")
+
 public class UserDaoTest {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
@@ -23,6 +25,7 @@ public class UserDaoTest {
     UserDao userDao;
 
     @Test
+    @Ignore
     public void shouldInsertUser() {
 
         User user = new User();
