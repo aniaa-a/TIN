@@ -23,7 +23,7 @@ class Model {
     }
 
     authorizeUser(user) {
-        const url = `/user/log?email=${user.email}&password=${user.password}`;
+        const url = `/tin/user/log?email=${user.email}&password=${user.password}`;
 
         fetch(url, {credentials: 'same-origin'})
             .then(response => Model.checkStatus(response, 200))
@@ -46,7 +46,7 @@ class Model {
     }
 
     logOut() {
-        const url = '/user/logout';
+        const url = '/tin/user/logout';
 
         fetch(url, {method: 'POST', credentials: 'same-origin'})
             .then(response => Model.checkStatus(response, 200))
@@ -61,7 +61,7 @@ class Model {
     }
 
     checkIfLogged() {
-        const url = '/user/isLogged';
+        const url = '/tin/user/isLogged';
 
         fetch(url, {credentials: 'same-origin'})
             .then(response => Model.checkStatus(response, 200))
@@ -80,7 +80,7 @@ class Model {
     }
 
     registerUser(user) {
-        const url = '/user/register';
+        const url = '/tin/user/register';
 
         fetch(url, {method: 'POST', body: JSON.stringify(user), headers: {'Content-Type': 'application/json'}})
             .then(response => {

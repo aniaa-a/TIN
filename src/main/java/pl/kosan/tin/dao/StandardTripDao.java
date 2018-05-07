@@ -24,11 +24,11 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardTripDao.class);
 
-    private final static String FIND_BY_CITY = "SELECT id_trip, city, departure_time, arrive_time, content, price_person FROM tin_trip WHERE city = :city";
+    private final static String FIND_BY_CITY = "SELECT id_trip, city, departure_time, arrive_time, content, price_person, photo, lead, rabat, title FROM tin_trip WHERE city = :city";
     private final static String FIND_BY_ID = "SELECT id_trip, city, departure_time, arrive_time, " +
-            "content, price_person FROM tin_trip WHERE id_trip = :id";
-    private final static String INSERT_TRIP = "INSERT INTO tin_trip(city, departure_time, arrive_time,price_person,content) values( :city, :departureTime, :arriveTime, :pricePerson, :content)";
-    private final static String FIND_ALL_TRIP = "SELECT id_trip, city, departure_time, arrive_time, content, price_person FROM tin_trip";
+            "content, price_person,photo, lead, rabat, title FROM tin_trip WHERE id_trip = :id";
+    private final static String INSERT_TRIP = "INSERT INTO tin_trip(city, departure_time, arrive_time,price_person,content, photo, lead, rabat, title) values( :city, :departureTime, :arriveTime, :pricePerson, :content, :photo, :lead, :rabat, :title)";
+    private final static String FIND_ALL_TRIP = "SELECT id_trip, city, departure_time, arrive_time, content, price_person, photo, lead, rabat, title FROM tin_trip";
 
 
     @Autowired
@@ -43,9 +43,10 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("city", trip.getCity())
-                .addValue("departureTime", trip.getDepartureTime()).addValue("arriveTime", trip.getArriveTime())
-                .addValue("pricePerson", trip.getPricePerPerson()).addValue("content", trip.getContent());
+        mapSqlParameterSource.addValue("city", trip.getCity()).addValue("departureTime", trip.getDepartureTime()).addValue("arriveTime", trip.getArriveTime())
+                .addValue("pricePerson", trip.getPricePerPerson()).addValue("content", trip.getContent())
+                .addValue("photo", trip.getPhoto()).addValue("lead", trip.getLead())
+                .addValue("rabat", trip.getRabat()).addValue("title", trip.getTitle());
 
         try {
             getNamedParameterJdbcTemplate().update(INSERT_TRIP, mapSqlParameterSource, keyHolder);
@@ -82,6 +83,10 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
                         trip.setArriveTime(rs.getString("arrive_time"));
                         trip.setPricePerPerson(rs.getDouble("price_person"));
                         trip.setContent(rs.getString("content"));
+                        trip.setLead(rs.getString("lead"));
+                        trip.setPhoto(rs.getString("photo"));
+                        trip.setTitle(rs.getString("title"));
+                        trip.setRabat(rs.getInt("rabat"));
                         return trip;
                     });
 
@@ -109,6 +114,10 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
                         trip.setArriveTime(rs.getString("arrive_time"));
                         trip.setPricePerPerson(rs.getDouble("price_person"));
                         trip.setContent(rs.getString("content"));
+                        trip.setLead(rs.getString("lead"));
+                        trip.setPhoto(rs.getString("photo"));
+                        trip.setTitle(rs.getString("title"));
+                        trip.setRabat(rs.getInt("rabat"));
                         return trip;
                     });
 
@@ -133,6 +142,10 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
                         trip.setArriveTime(rs.getString("arrive_time"));
                         trip.setPricePerPerson(rs.getDouble("price_person"));
                         trip.setContent(rs.getString("content"));
+                        trip.setLead(rs.getString("lead"));
+                        trip.setPhoto(rs.getString("photo"));
+                        trip.setTitle(rs.getString("title"));
+                        trip.setRabat(rs.getInt("rabat"));
                         return trip;
                     }));
 

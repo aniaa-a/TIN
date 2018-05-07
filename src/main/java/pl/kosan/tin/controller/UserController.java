@@ -90,8 +90,7 @@ public class UserController {
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public void logOutUser(HttpServletRequest req) {
         HttpSession session = req.getSession();
-
-        //session.removeAttribute("user");
+        session.removeAttribute("user");
         session.invalidate();
     }
 

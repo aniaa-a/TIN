@@ -8,6 +8,11 @@ public class Trip {
     private String arriveTime;
     private String content;
     private Double pricePerPerson;
+    private String lead;
+    private String photo;
+    private String title;
+    private Integer rabat;
+
 
     public Trip() {
     }
@@ -18,6 +23,38 @@ public class Trip {
         this.departureTime = departureTime;
         this.arriveTime = arriveTime;
         this.pricePerPerson = pricePerPerson;
+    }
+
+    public String getLead() {
+        return lead;
+    }
+
+    public void setLead(String lead) {
+        this.lead = lead;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getRabat() {
+        return rabat;
+    }
+
+    public void setRabat(Integer rabat) {
+        this.rabat = rabat;
     }
 
     public String getContent() {
@@ -75,7 +112,12 @@ public class Trip {
                 ", city='" + city + '\'' +
                 ", departureTime='" + departureTime + '\'' +
                 ", arriveTime='" + arriveTime + '\'' +
+                ", content='" + content + '\'' +
                 ", pricePerPerson=" + pricePerPerson +
+                ", lead='" + lead + '\'' +
+                ", photo='" + photo + '\'' +
+                ", title='" + title + '\'' +
+                ", rabat=" + rabat +
                 '}';
     }
 }

@@ -6,7 +6,7 @@ class Trips {
     }
 
     loadTrips() {
-        const url = '/trip/getAll';
+        const url = '/tin/trip/getAll';
 
         fetch(url)
             .then(response => {

@@ -20,7 +20,7 @@ class AdminModel {
     }
 
     checkIfLogged() {
-        const url = '/user/isLogged';
+        const url = '/tin/user/isLogged';
 
         fetch(url, {credentials: 'same-origin'})
             .then(response => {
@@ -48,7 +48,7 @@ class AdminModel {
     }
 
     getReservations() {
-        const url = '/reservation/getAll';
+        const url = '/tin/reservation/getAll';
 
         return fetch(url)
             .then(response => AdminModel.checkStatus(response, 200))
@@ -59,7 +59,7 @@ class AdminModel {
     }
 
     getDrivers() {
-        const url = '/driver/getAll';
+        const url = '/tin/driver/getAll';
 
         return fetch(url)
             .then(response => AdminModel.checkStatus(response, 200))
@@ -68,7 +68,7 @@ class AdminModel {
     }
 
     getCars() {
-        const url = '/car/getAll';
+        const url = '/tin/car/getAll';
 
         return fetch(url)
             .then(response => AdminModel.checkStatus(response, 200))
@@ -81,7 +81,7 @@ class AdminModel {
     }
 
     deleteReservation(id) {
-        const url = `/reservation/delete?id=${id}`;
+        const url = `/tin/reservation/delete?id=${id}`;
 
         fetch(url, {method: 'DELETE'})
             .then(response => AdminModel.checkStatus(response, 200))
@@ -91,7 +91,7 @@ class AdminModel {
     }
 
     updateReservation(body) {
-        const url = '/admin/addCarDriver';
+        const url = '/tin/admin/addCarDriver';
 
         fetch(url, {method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(response => AdminModel.checkStatus(response, 200))

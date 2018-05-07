@@ -14,7 +14,7 @@ class Reservation {
     }
 
     loadData(tripId) {
-        const url = `trip/getById?id=${tripId}`;
+        const url = `tin/trip/getById?id=${tripId}`;
 
         fetch(url)
             .then(response => {
@@ -35,7 +35,7 @@ class Reservation {
     }
 
     submitReservation() {
-        const url = '/reservation/book';
+        const url = 'tin/reservation/book';
         const data = {
             city: this.form.city.value,
             dateTrip: this.form.dateTrip.value,
@@ -52,7 +52,7 @@ class Reservation {
             .then(response => Model.checkStatus(response, 201))
             .then(() => {
                 alert('Rezerwacja z\u0142o\u017Cona!');
-                location.hash = '/home';
+                location.hash = 'tin/home';
             })
             .catch(error => alert(error));
     }

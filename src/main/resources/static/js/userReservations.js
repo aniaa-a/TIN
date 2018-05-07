@@ -6,7 +6,7 @@ class UserReservations {
     }
 
     loadReservations(id) {
-        const url = `reservation/getByUser?id=${id}`;
+        const url = `/tin/reservation/getByUser?id=${id}`;
 
         fetch(url, {credentials: 'same-origin'})
             .then(response => {
