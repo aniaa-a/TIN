@@ -37,7 +37,6 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
     @Override
     public void insertUser(User user) {
 
-        LOGGER.info("pierwsze po insert: "+user.getPassword());
         String pass = "";
         try {
             pass = Utils.cryptPass(user.getPassword());
@@ -45,7 +44,6 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
             e.printStackTrace();
         }
         user.setPassword(pass);
-        LOGGER.info("insert: "+pass);
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
