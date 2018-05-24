@@ -28,7 +28,7 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
     private final static String FIND_BY_ID = "SELECT id_trip, city, departure_time, arrive_time, " +
             "content,photo, lead, title FROM tin_trip WHERE id_trip = :id";
     private final static String INSERT_TRIP = "INSERT INTO tin_trip(city, departure_time, arrive_time,content, photo, photo_mini, lead, title) values( :city, :departureTime, :arriveTime, :pricePerson, :content, :photo,:miniPhoto :lead, :title)";
-    private final static String FIND_ALL_TRIP = "SELECT id_trip, city, departure_time, arrive_time, content,  photo, lead, title FROM tin_trip";
+    private final static String FIND_ALL_TRIP = "SELECT id_trip, city, departure_time, arrive_time, content,  photo, mini_photo, lead, title FROM tin_trip";
 
 
     @Autowired
@@ -139,6 +139,7 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
                         trip.setContent(rs.getString("content"));
                         trip.setLead(rs.getString("lead"));
                         trip.setPhoto(rs.getString("photo"));
+                        trip.setMiniPhoto(rs.getString("mini_photo"));
                         trip.setTitle(rs.getString("title"));
                         return trip;
                     }));
