@@ -5,5 +5,5 @@ import pl.kosan.tin.model.Slider;
 public interface SliderDao {
 
     void addSlider(Slider slider);
-    void deleteSlider(Slider slider);
+    void deleteSlider(Long id);
 }
