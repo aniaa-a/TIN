@@ -16,21 +16,21 @@ public class TripController {
     TripService tripService;
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, value = "/getAll")
+    @RequestMapping(method = RequestMethod.GET)
     public List<Trip> getAllTrip() {
 
         return tripService.findallTrip();
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, value = "/getById")
-    public Trip getTripById( @RequestParam(defaultValue = "id") Long id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public Trip getTripById( @PathVariable("id") Long id) {
 
         return tripService.findTripById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/addTrip")
+    @RequestMapping(method = RequestMethod.POST)
     public void insertTrip(@RequestBody Trip trip){
 
         tripService.insertTrip(trip);

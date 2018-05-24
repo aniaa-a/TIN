@@ -17,7 +17,7 @@ public class CarController {
     CarService carService;
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, value = "/getAll")
+    @RequestMapping(method = RequestMethod.GET)
     public CarResponseDto getAllCar() {
 
         CarResponseDto carResponseDto = new CarResponseDto();

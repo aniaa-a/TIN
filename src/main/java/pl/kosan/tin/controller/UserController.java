@@ -1,6 +1,5 @@
 package pl.kosan.tin.controller;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +41,9 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(path = "/log", method = RequestMethod.GET)
-    public UserResponseDto logInUser(HttpServletRequest req, @RequestParam(defaultValue = "email") String email,
-                                     @RequestParam(defaultValue = "password") String password) {
+    @RequestMapping(value = "/log/{email}/{password}", method = RequestMethod.GET)
+    public UserResponseDto logInUser(HttpServletRequest req, @PathVariable("email") String email,
+                                     @PathVariable("password") String password) {
         HttpSession session = req.getSession();
         UserResponseDto userResponseDto = new UserResponseDto();
 
