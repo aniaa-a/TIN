@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*").authenticated()
                 .and()
                 .httpBasic();
-
+        http.csrf().disable();
     }
 
     @Autowired

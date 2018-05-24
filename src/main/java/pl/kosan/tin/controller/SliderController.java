@@ -18,29 +18,29 @@ public class SliderController {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, value = "/getAll")
+    @RequestMapping(method = RequestMethod.GET)
     public List<Slider> getAllSlider() {
 
         return sliderService.getSliders();
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, value = "/getByTripId")
-    public Slider getSliderByIdtrip( @RequestParam(defaultValue = "id") Long id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{tripId}")
+    public Slider getSliderByIdtrip(@PathVariable("tripId") Long tripId) {
 
-        return sliderService.getSliderByTrip(id);
+        return sliderService.getSliderByTrip(tripId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/add")
+    @RequestMapping(method = RequestMethod.POST)
     public void insertSlider(@RequestBody Slider slider){
 
         sliderService.addSlider(slider);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.POST, value = "/delete")
-    public void deleteSlider(@RequestBody Long id){
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public void deleteSlider(@PathVariable("id") Long id){
 
         sliderService.deleteSlider(id);
     }

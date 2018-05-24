@@ -2,15 +2,13 @@ package pl.kosan.tin.dao;
 
 import pl.kosan.tin.dto.CarDriverReservationRespDto;
 import pl.kosan.tin.dto.UserReservationRespDto;
-import pl.kosan.tin.model.Car;
-import pl.kosan.tin.model.CarDriver;
-import pl.kosan.tin.model.Reservation;
+import pl.kosan.tin.model.Price;
+import pl.kosan.tin.model.Services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface AdminDao {
+public interface ApplicationDao {
 
     Optional<List<UserReservationRespDto>> findReservationForUser(String email);
 
@@ -18,6 +16,8 @@ public interface AdminDao {
 
     void updateReservation(Long idReservation, Long idCarToDriver);
 
+    Optional<List<Price>> findPricesForTrip(Long idTrip);
 
+    Optional<List<Services>> findServicesForTrip(Long idTrip);
 
 }

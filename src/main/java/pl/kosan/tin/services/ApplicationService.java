@@ -1,15 +1,16 @@
 package pl.kosan.tin.services;
 
 import pl.kosan.tin.dto.CarDriverReservationRespDto;
-import pl.kosan.tin.model.Car;
-import pl.kosan.tin.model.CarDriver;
+import pl.kosan.tin.dto.TripDto;
 
-import java.util.Date;
+import java.util.List;
 
-public interface AdminService {
+public interface ApplicationService {
 
     void addCarDriverToReservation(CarDriverReservationRespDto carDriverReservationRespDto);
 
     //void updateReservation(Long idReservation, Long idCarToDriver);
+
+    List<TripDto> getAllTrip();
 
 }

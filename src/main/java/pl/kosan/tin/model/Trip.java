@@ -1,28 +1,29 @@
 package pl.kosan.tin.model;
 
+import java.util.List;
+
 public class Trip {
 
     private Long tripId;
     private String city;
-    private  String departureTime;
+    private String departureTime;
     private String arriveTime;
     private String content;
-    private Double pricePerPerson;
     private String lead;
     private String photo;
+    private String miniPhoto;
     private String title;
-    private Integer rabat;
 
 
     public Trip() {
     }
 
-    public Trip(Long tripId, String city, String departureTime, String arriveTime, Double pricePerPerson) {
+    public Trip(Long tripId, String city, String departureTime, String arriveTime) {
         this.tripId = tripId;
         this.city = city;
         this.departureTime = departureTime;
         this.arriveTime = arriveTime;
-        this.pricePerPerson = pricePerPerson;
+
     }
 
     public String getLead() {
@@ -47,14 +48,6 @@ public class Trip {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Integer getRabat() {
-        return rabat;
-    }
-
-    public void setRabat(Integer rabat) {
-        this.rabat = rabat;
     }
 
     public String getContent() {
@@ -97,12 +90,12 @@ public class Trip {
         this.arriveTime = arriveTime;
     }
 
-    public Double getPricePerPerson() {
-        return pricePerPerson;
+    public String getMiniPhoto() {
+        return miniPhoto;
     }
 
-    public void setPricePerPerson(Double pricePerPerson) {
-        this.pricePerPerson = pricePerPerson;
+    public void setMiniPhoto(String miniPhoto) {
+        this.miniPhoto = miniPhoto;
     }
 
     @Override
@@ -113,11 +106,10 @@ public class Trip {
                 ", departureTime='" + departureTime + '\'' +
                 ", arriveTime='" + arriveTime + '\'' +
                 ", content='" + content + '\'' +
-                ", pricePerPerson=" + pricePerPerson +
                 ", lead='" + lead + '\'' +
                 ", photo='" + photo + '\'' +
                 ", title='" + title + '\'' +
-                ", rabat=" + rabat +
+
                 '}';
     }
 }

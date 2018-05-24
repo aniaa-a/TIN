@@ -1,17 +1,20 @@
 package pl.kosan.tin.dto;
 
+import java.util.List;
+
 public class TripDto {
 
     private Long tripId;
     private String city;
-    private  String departureTime;
+    private String departureTime;
     private String arriveTime;
     private String content;
-    private Double pricePerPerson;
+    private List<Double> prices;
+    private List<String> services;
+    private String miniPhoto;
     private String lead;
     private String photo;
     private String title;
-    private Integer rabat;
     private boolean inSlider;
 
     public Long getTripId() {
@@ -54,14 +57,6 @@ public class TripDto {
         this.content = content;
     }
 
-    public Double getPricePerPerson() {
-        return pricePerPerson;
-    }
-
-    public void setPricePerPerson(Double pricePerPerson) {
-        this.pricePerPerson = pricePerPerson;
-    }
-
     public String getLead() {
         return lead;
     }
@@ -86,20 +81,36 @@ public class TripDto {
         this.title = title;
     }
 
-    public Integer getRabat() {
-        return rabat;
-    }
-
-    public void setRabat(Integer rabat) {
-        this.rabat = rabat;
-    }
-
     public boolean isInSlider() {
         return inSlider;
     }
 
     public void setInSlider(boolean inSlider) {
         this.inSlider = inSlider;
+    }
+
+    public List<Double> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Double> prices) {
+        this.prices = prices;
+    }
+
+    public List<String> getServices() {
+        return services;
+    }
+
+    public void setServices(List<String> services) {
+        this.services = services;
+    }
+
+    public String getMiniPhoto() {
+        return miniPhoto;
+    }
+
+    public void setMiniPhoto(String miniPhoto) {
+        this.miniPhoto = miniPhoto;
     }
 
     @Override
@@ -110,11 +121,12 @@ public class TripDto {
                 ", departureTime='" + departureTime + '\'' +
                 ", arriveTime='" + arriveTime + '\'' +
                 ", content='" + content + '\'' +
-                ", pricePerPerson=" + pricePerPerson +
+                ", prices=" + prices +
+                ", services=" + services +
+                ", miniPhoto='" + miniPhoto + '\'' +
                 ", lead='" + lead + '\'' +
                 ", photo='" + photo + '\'' +
                 ", title='" + title + '\'' +
-                ", rabat=" + rabat +
                 ", inSlider=" + inSlider +
                 '}';
     }
