@@ -11,4 +11,5 @@ public interface SliderDao {
     void deleteSlider(Long idSlider);
     Optional<List<Slider>> getSliders();
     Optional<Slider> getSlider(Long idTrip);
+
 }

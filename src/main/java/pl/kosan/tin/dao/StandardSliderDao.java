@@ -10,24 +10,23 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import pl.kosan.tin.model.Car;
 import pl.kosan.tin.model.Slider;
-
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+
 public class StandardSliderDao extends NamedParameterJdbcDaoSupport implements SliderDao {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardSliderDao.class);
 
     private final static String INSERT_SLIDER = "INSERT INTO tin_slider(id_trip, description, photo)" +
             "VALUES(:id_trip,:description, :photo)";
-
     private final static String DELETE_SLIDER = "DELETE FROM tin_slider WHERE id = :id";
     private final static String GET_ALL_SLIDER = "SELECT id, id_trip, description, photo FROM tin_slider";
     private final static String GET_SLIDER_BY_IDTRIP = "SELECT id, id_trip, description, photo FROM tin_slider WHERE id_trip = :id_trip";
+
     @Autowired
     public void setDs(DataSource dataSource) {
         this.setDataSource(dataSource);
@@ -102,9 +101,7 @@ public class StandardSliderDao extends NamedParameterJdbcDaoSupport implements S
                     }));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
-        } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw e;
+
         }
     }
 }

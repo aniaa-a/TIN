@@ -27,7 +27,7 @@ public class ReservationController {
     ReservationService reservationService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST, value = "/book")
+    @RequestMapping(method = RequestMethod.POST)
     public void setReservation(@RequestBody UserReservationRespDto reservation) {
 
         reservationService.setReservation(reservation);
@@ -35,7 +35,7 @@ public class ReservationController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, value = "/getAll")
+    @RequestMapping(method = RequestMethod.GET)
     public List<ReservationRespDto> getAllReservation() {
 
         return reservationService.getAllReservations();
@@ -44,17 +44,17 @@ public class ReservationController {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
-    public void setReservation(@RequestParam Long id) {
+    @RequestMapping(method = RequestMethod.DELETE, value= "/{id}")
+    public void deleteReservation(@PathVariable("id") Long id) {
 
         reservationService.deleteReservationById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, value = "/getByUser")
-    public List<ReservationPerUserDto> getAllReservation(@RequestParam Long id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
+    public List<ReservationPerUserDto> getReservationByUserId(@PathVariable("userId") Long userId) {
 
-        return reservationService.findReservationByUser(id);
+        return reservationService.findReservationByUser(userId);
 
     }
 
