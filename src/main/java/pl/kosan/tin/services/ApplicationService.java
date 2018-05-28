@@ -13,4 +13,5 @@ public interface ApplicationService {
 
     List<TripDto> getAllTrip();
 
+    TripDto getTripById(Long tripId);
 }

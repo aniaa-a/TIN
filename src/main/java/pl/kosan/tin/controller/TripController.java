@@ -29,9 +29,10 @@ public class TripController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    public Trip getTripById(@PathVariable("id") Long id) {
+    public TripDto getTripById(@PathVariable("id") Long id) {
 
-        return tripService.findTripById(id);
+       // return tripService.findTripById(id);
+        return  applicationService.getTripById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

@@ -75,5 +75,38 @@ public class StandardApplicationService implements ApplicationService {
         return tripsDto;
     }
 
+    @Override
+    public TripDto getTripById(Long tripId) {
+        TripDto tripDto = new TripDto();
+        List<Price> prices = new ArrayList<>();
+        List<Services> services = new ArrayList<>();
+
+        Trip trip= tripDao.findTripById(tripId);
+
+            Optional<List<Price>> optPrice = applicationDao.findPricesForTrip(tripId);
+            if (optPrice.isPresent()) {
+                prices = optPrice.get();
+            }
+            tripDto = new TripDto();
+            tripDto.setArriveTime(trip.getArriveTime());
+            tripDto.setCity(trip.getCity());
+            tripDto.setContent(trip.getContent());
+            tripDto.setDepartureTime(trip.getDepartureTime());
+            tripDto.setLead(trip.getLead());
+            tripDto.setPhoto(trip.getPhoto());
+            tripDto.setTitle(trip.getTitle());
+            tripDto.setTripId(trip.getTripId());
+            tripDto.setMiniPhoto(trip.getMiniPhoto());
+
+            tripDto.setPrices(prices.stream().map(price -> new Double(price.getPrice())).collect(Collectors.toList()));
+
+            Optional<List<Services>> serviceopt = applicationDao.findServicesForTrip(trip.getTripId());
+            if (serviceopt.isPresent()) {
+                services = serviceopt.get();
+            }
+            tripDto.setServices(services.stream().map(serv -> new String(serv.getService())).collect(Collectors.toList()));
+        return tripDto;
+    }
+
 
 }
