@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface SliderDao {
 
     void addSlider(Slider slider);
-    void deleteSlider(Long idSlider);
+    void deleteSlider(Long idTrip);
     Optional<List<Slider>> getSliders();
     Optional<Slider> getSlider(Long idTrip);
 

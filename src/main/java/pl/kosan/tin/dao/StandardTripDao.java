@@ -24,11 +24,11 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardTripDao.class);
 
-    private final static String FIND_BY_CITY = "SELECT id_trip, city, departure_time, arrive_time, content, photo, mini_photo, lead, title FROM tin_trip WHERE city = :city";
+    private final static String FIND_BY_CITY = "SELECT id_trip, city, departure_time, arrive_time, content, photo, mini_photo, lead, title, embed_map FROM tin_trip WHERE city = :city";
     private final static String FIND_BY_ID = "SELECT id_trip, city, departure_time, arrive_time, " +
-            "content,photo, lead, title FROM tin_trip WHERE id_trip = :id";
-    private final static String INSERT_TRIP = "INSERT INTO tin_trip(city, departure_time, arrive_time,content, photo, photo_mini, lead, title) values( :city, :departureTime, :arriveTime, :pricePerson, :content, :photo,:miniPhoto :lead, :title)";
-    private final static String FIND_ALL_TRIP = "SELECT id_trip, city, departure_time, arrive_time, content,  photo, mini_photo, lead, title FROM tin_trip";
+            "content,photo, lead, title, embed_map FROM tin_trip WHERE id_trip = :id";
+    private final static String INSERT_TRIP = "INSERT INTO tin_trip(city, departure_time, arrive_time,content, photo, photo_mini, lead, title, embed_map) values( :city, :departureTime, :arriveTime, :pricePerson, :content, :photo,:miniPhoto :lead, :title, :embedMap)";
+    private final static String FIND_ALL_TRIP = "SELECT id_trip, city, departure_time, arrive_time, content,  photo, mini_photo, lead, title, embed_map FROM tin_trip";
 
 
     @Autowired
@@ -46,7 +46,8 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
         mapSqlParameterSource.addValue("city", trip.getCity()).addValue("departureTime", trip.getDepartureTime()).addValue("arriveTime", trip.getArriveTime())
                .addValue("content", trip.getContent())
                 .addValue("photo", trip.getPhoto()).addValue("lead", trip.getLead())
-                .addValue("title", trip.getTitle());
+                .addValue("title", trip.getTitle())
+         .addValue("embed_map", trip.getEmbedMap());
 
         try {
             getNamedParameterJdbcTemplate().update(INSERT_TRIP, mapSqlParameterSource, keyHolder);
@@ -85,6 +86,7 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
                         trip.setLead(rs.getString("lead"));
                         trip.setPhoto(rs.getString("photo"));
                         trip.setTitle(rs.getString("title"));
+                        trip.setEmbedMap(rs.getString("embed_map"));
                         return trip;
                     });
 
@@ -114,6 +116,7 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
                         trip.setLead(rs.getString("lead"));
                         trip.setPhoto(rs.getString("photo"));
                         trip.setTitle(rs.getString("title"));
+                        trip.setEmbedMap(rs.getString("embed_map"));
                         return trip;
                     });
 
@@ -141,6 +144,7 @@ public class StandardTripDao extends NamedParameterJdbcDaoSupport implements Tri
                         trip.setPhoto(rs.getString("photo"));
                         trip.setMiniPhoto(rs.getString("mini_photo"));
                         trip.setTitle(rs.getString("title"));
+                        trip.setEmbedMap(rs.getString("embed_map"));
                         return trip;
                     }));
 

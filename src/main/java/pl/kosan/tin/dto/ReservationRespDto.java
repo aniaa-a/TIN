@@ -9,10 +9,13 @@ public class ReservationRespDto {
     private Long idReservation;
     private String city;
     private Date dateTrip;
-    private ReservationStatus status;
+    private String status;
     private Long carId;
     private Long driverId;
     private String email;
+    private  Double price;
+
+
 
 
     public Long getIdReservation() {
@@ -21,6 +24,14 @@ public class ReservationRespDto {
 
     public void setIdReservation(Long idReservation) {
         this.idReservation = idReservation;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getCity() {
@@ -39,11 +50,11 @@ public class ReservationRespDto {
         this.dateTrip = dateTrip;
     }
 
-    public ReservationStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(ReservationStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

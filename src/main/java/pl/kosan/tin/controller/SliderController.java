@@ -33,9 +33,9 @@ public class SliderController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    public void insertSlider(@RequestBody Slider slider){
+    public void insertSlider(@RequestParam Long idTrip){
 
-        sliderService.addSlider(slider);
+        sliderService.addSlider(idTrip);
     }
 
     @ResponseStatus(HttpStatus.OK)

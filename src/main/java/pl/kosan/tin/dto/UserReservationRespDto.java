@@ -6,13 +6,11 @@ import java.util.Date;
 
 public class UserReservationRespDto {
 
-
-    private String city;
     private String phoneUser;
+    private Long tripId;
     private String mailUser;
     private Date dateTrip;
-    private ReservationStatus status;
-    private Double pricePerPerson;
+    //private ReservationStatus status;
     private Double price;
     private Integer numPeople;
 
@@ -20,14 +18,18 @@ public class UserReservationRespDto {
     public UserReservationRespDto() {
     }
 
-
-    public String getCity() {
-        return city;
+    public Long getTripId() {
+        return tripId;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setTripId(Long tripId) {
+        this.tripId = tripId;
     }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
 
     public String getPhoneUser() {
         return phoneUser;
@@ -53,29 +55,19 @@ public class UserReservationRespDto {
         this.dateTrip = dateTrip;
     }
 
-    public ReservationStatus getStatus() {
+   /* public ReservationStatus getStatus() {
         return status;
     }
 
     public void setStatus(ReservationStatus status) {
         this.status = status;
-    }
+    }*/
 
-    public Double getPricePerPerson() {
-        return pricePerPerson;
-    }
-
-    public void setPricePerPerson(Double pricePerPerson) {
-        this.pricePerPerson = pricePerPerson;
-    }
 
     public Double getPrice() {
         return price;
     }
 
-    public void setPrice() {
-        this.price = pricePerPerson * numPeople;
-    }
 
     public Integer getNumPeople() {
         return numPeople;
@@ -86,16 +78,13 @@ public class UserReservationRespDto {
     }
 
 
-
     @Override
     public String toString() {
         return "UserReservationRespDto{" +
-                ", city='" + city + '\'' +
                 ", phoneUser='" + phoneUser + '\'' +
                 ", mailUser='" + mailUser + '\'' +
                 ", dateTrip=" + dateTrip +
-                ", status=" + status +
-                ", pricePerPerson=" + pricePerPerson +
+               // ", status=" + status +
                 ", price=" + price +
                 ", numPeople=" + numPeople +
                 '}';

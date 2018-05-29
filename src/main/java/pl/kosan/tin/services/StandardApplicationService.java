@@ -62,6 +62,7 @@ public class StandardApplicationService implements ApplicationService {
             tripDto.setTitle(trip.getTitle());
             tripDto.setTripId(trip.getTripId());
             tripDto.setMiniPhoto(trip.getMiniPhoto());
+            tripDto.setEmbedMap(trip.getEmbedMap());
 
             tripDto.setPrices(prices.stream().map(price -> new Double(price.getPrice())).collect(Collectors.toList()));
 
@@ -97,6 +98,7 @@ public class StandardApplicationService implements ApplicationService {
             tripDto.setTitle(trip.getTitle());
             tripDto.setTripId(trip.getTripId());
             tripDto.setMiniPhoto(trip.getMiniPhoto());
+            tripDto.setEmbedMap(trip.getEmbedMap());
 
             tripDto.setPrices(prices.stream().map(price -> new Double(price.getPrice())).collect(Collectors.toList()));
 

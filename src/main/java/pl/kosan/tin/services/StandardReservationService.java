@@ -10,6 +10,7 @@ import pl.kosan.tin.dto.ReservationRespDto;
 import pl.kosan.tin.dto.UserReservationRespDto;
 import pl.kosan.tin.model.Car;
 import pl.kosan.tin.model.Reservation;
+import pl.kosan.tin.model.ReservationStatus;
 import pl.kosan.tin.model.User;
 
 import javax.swing.text.html.Option;
@@ -37,11 +38,11 @@ public class StandardReservationService implements ReservationService {
 
         Long userId = userDao.findUserByMail(reservation.getMailUser()).getIdUser();
         res.setUserId(userId);
-        Long tripId = tripDao.findTripByCity(reservation.getCity()).getTripId();
-        res.setTripId(tripId);
+        res.setTripId(reservation.getTripId());
         res.setDateTrip(reservation.getDateTrip());
         res.setNumOfPeople(reservation.getNumPeople());
-        res.setStatus(reservation.getStatus());
+        res.setPrice(reservation.getPrice());
+        res.setStatus((ReservationStatus.Zarezerwowana).toString());
 
         reservationDao.insertReservation(res);
     }

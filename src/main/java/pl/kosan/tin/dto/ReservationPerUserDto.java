@@ -9,10 +9,18 @@ public class ReservationPerUserDto {
     private Long idReservation;
     private String city;
     private String dateTrip;
-    private String pricePerPerson;
+    private Double price;
     private Integer numPeople;
     private String arriveTime;
     private String departureTime;
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
     public String getDepartureTime() {
         return departureTime;
@@ -52,14 +60,6 @@ public class ReservationPerUserDto {
 
     public void setDateTrip(String dateTrip) {
         this.dateTrip = dateTrip;
-    }
-
-    public String getPricePerPerson() {
-        return pricePerPerson;
-    }
-
-    public void setPricePerPerson(String pricePerPerson) {
-        this.pricePerPerson = pricePerPerson;
     }
 
     public Integer getNumPeople() {

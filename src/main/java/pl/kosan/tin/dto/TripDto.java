@@ -15,7 +15,7 @@ public class TripDto {
     private String lead;
     private String photo;
     private String title;
-    private boolean inSlider;
+    private String embedMap;
 
     public Long getTripId() {
         return tripId;
@@ -81,14 +81,6 @@ public class TripDto {
         this.title = title;
     }
 
-    public boolean isInSlider() {
-        return inSlider;
-    }
-
-    public void setInSlider(boolean inSlider) {
-        this.inSlider = inSlider;
-    }
-
     public List<Double> getPrices() {
         return prices;
     }
@@ -113,6 +105,14 @@ public class TripDto {
         this.miniPhoto = miniPhoto;
     }
 
+    public String getEmbedMap() {
+        return embedMap;
+    }
+
+    public void setEmbedMap(String embedMap) {
+        this.embedMap = embedMap;
+    }
+
     @Override
     public String toString() {
         return "TripDto{" +
@@ -127,7 +127,6 @@ public class TripDto {
                 ", lead='" + lead + '\'' +
                 ", photo='" + photo + '\'' +
                 ", title='" + title + '\'' +
-                ", inSlider=" + inSlider +
                 '}';
     }
 }

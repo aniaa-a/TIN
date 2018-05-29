@@ -23,7 +23,7 @@ public class StandardSliderDao extends NamedParameterJdbcDaoSupport implements S
 
     private final static String INSERT_SLIDER = "INSERT INTO tin_slider(id_trip, description, photo)" +
             "VALUES(:id_trip,:description, :photo)";
-    private final static String DELETE_SLIDER = "DELETE FROM tin_slider WHERE id = :id";
+    private final static String DELETE_SLIDER = "DELETE FROM tin_slider WHERE id_trip = :id";
     private final static String GET_ALL_SLIDER = "SELECT id, id_trip, description, photo FROM tin_slider";
     private final static String GET_SLIDER_BY_IDTRIP = "SELECT id, id_trip, description, photo FROM tin_slider WHERE id_trip = :id_trip";
 
@@ -50,10 +50,10 @@ public class StandardSliderDao extends NamedParameterJdbcDaoSupport implements S
     }
 
     @Override
-    public void deleteSlider(Long idSlider) {
+    public void deleteSlider(Long idTrip) {
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("idSlider", idSlider);
+        mapSqlParameterSource.addValue("id", idTrip);
 
         try {
             getNamedParameterJdbcTemplate().update(DELETE_SLIDER, mapSqlParameterSource);

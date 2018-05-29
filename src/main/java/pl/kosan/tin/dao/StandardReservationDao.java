@@ -27,16 +27,16 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardReservationDao.class);
 
-    private final static String INSERT_RESERVATION = "INSERT INTO tin_reservation(id_trip, id_user, date_trip, status, num_people)" +
-            "VALUES(:id_trip, :id_user, :date_trip, :status, :num_people)";
+    private final static String INSERT_RESERVATION = "INSERT INTO tin_reservation(id_trip, id_user, date_trip, status, num_people, price)" +
+            "VALUES(:id_trip, :id_user, :date_trip, :status, :num_people, :price)";
 
-    private final static String FIND_ALL_RESERVATION = "select a.id_reservation, c.city, a.date_trip, a.status, b.id_car, b.id_cardriver, d.email " +
+    private final static String FIND_ALL_RESERVATION = "select a.id_reservation, c.city, a.date_trip, a.status, b.id_car, b.id_cardriver, d.email, a.price " +
             "from  tin_driver_to_car b right join tin_reservation a on  a.id_driver_to_car = b.id_driver_to_car\n" +
             "join tin_trip c on a.id_trip = c.id_trip join tin_user d on a.id_user = d.id_user";
 
     private final static String DELETE_RESERVATION = "delete from tin_reservation where id_reservation = :idReservation";
 
-    private final static String FIND_RESERVATION_BY_USER ="select a.id_reservation, b.city, a.date_trip, a.status, a.num_people, b.price_person, b.arrive_time, b.departure_time from tin_reservation a , tin_trip b where a.id_trip = b.id_trip and  id_user = :id";
+    private final static String FIND_RESERVATION_BY_USER = "select a.id_reservation, b.city, a.date_trip, a.status, a.num_people, a.price, b.arrive_time, b.departure_time from tin_reservation a , tin_trip b where a.id_trip = b.id_trip and  id_user = :id";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -52,7 +52,9 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
         mapSqlParameterSource.addValue("id_trip", reservation.getTripId())
                 .addValue("id_user", reservation.getUserId()).addValue("date_trip", reservation.getDateTrip())
                 .addValue("status", reservation.getStatus())
+                .addValue("price", reservation.getPrice())
                 .addValue("num_people", reservation.getNumOfPeople());
+
         try {
             getNamedParameterJdbcTemplate().update(INSERT_RESERVATION, mapSqlParameterSource, keyHolder);
             reservation.setReservationId(keyHolder.getKey().longValue());
@@ -68,7 +70,7 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("idReservation", reservationId);
-        LOGGER.info("id rezerwacji:  "+reservationId);
+        LOGGER.info("id rezerwacji:  " + reservationId);
         try {
             getNamedParameterJdbcTemplate().update(DELETE_RESERVATION, mapSqlParameterSource);
         } catch (DataAccessException e) {
@@ -86,20 +88,20 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
     @Override
     public Optional<List<ReservationPerUserDto>> findReservationByUser(Long userId) {
 
-            MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-            mapSqlParameterSource.addValue("id", userId);
-            try {
-                return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_BY_USER, mapSqlParameterSource, (rs, rowNum) -> {
-                    ReservationPerUserDto reservationPerUserDto = new ReservationPerUserDto();
-                    reservationPerUserDto.setIdReservation(rs.getLong("id_reservation"));
-                    reservationPerUserDto.setCity(rs.getString("city"));
-                    reservationPerUserDto.setDateTrip(rs.getString("date_trip"));
-                    reservationPerUserDto.setNumPeople(rs.getInt("num_people"));
-                    reservationPerUserDto.setPricePerPerson(rs.getString("price_person"));
-                    reservationPerUserDto.setArriveTime(rs.getString("arrive_time"));
-                    reservationPerUserDto.setDepartureTime(rs.getString("departure_time"));
-                    return reservationPerUserDto;
-                }));
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("id", userId);
+        try {
+            return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_BY_USER, mapSqlParameterSource, (rs, rowNum) -> {
+                ReservationPerUserDto reservationPerUserDto = new ReservationPerUserDto();
+                reservationPerUserDto.setIdReservation(rs.getLong("id_reservation"));
+                reservationPerUserDto.setCity(rs.getString("city"));
+                reservationPerUserDto.setDateTrip(rs.getString("date_trip"));
+                reservationPerUserDto.setNumPeople(rs.getInt("num_people"));
+                reservationPerUserDto.setPrice(rs.getDouble("price"));
+                reservationPerUserDto.setArriveTime(rs.getString("arrive_time"));
+                reservationPerUserDto.setDepartureTime(rs.getString("departure_time"));
+                return reservationPerUserDto;
+            }));
 
 
         } catch (EmptyResultDataAccessException e) {
@@ -117,12 +119,13 @@ public class StandardReservationDao extends NamedParameterJdbcDaoSupport impleme
                     new MapSqlParameterSource(), (rs, rowNum) -> {
 
                         ReservationRespDto reservationRespDto = new ReservationRespDto();
-                        reservationRespDto.setIdReservation(rs.getLong( "id_reservation"));
+                        reservationRespDto.setIdReservation(rs.getLong("id_reservation"));
                         reservationRespDto.setCity(rs.getString("city"));
                         reservationRespDto.setDateTrip(rs.getDate("date_trip"));
-                        reservationRespDto.setStatus((ReservationStatus) rs.getObject("status"));
+                        reservationRespDto.setStatus(rs.getString("status"));
                         reservationRespDto.setCarId(rs.getLong("id_car"));
                         reservationRespDto.setDriverId(rs.getLong("id_cardriver"));
+                        reservationRespDto.setPrice(rs.getDouble("price"));
                         reservationRespDto.setEmail(rs.getString("email"));
                         return reservationRespDto;
                     }));

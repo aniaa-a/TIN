@@ -9,8 +9,6 @@ public interface ApplicationService {
 
     void addCarDriverToReservation(CarDriverReservationRespDto carDriverReservationRespDto);
 
-    //void updateReservation(Long idReservation, Long idCarToDriver);
-
     List<TripDto> getAllTrip();
 
     TripDto getTripById(Long tripId);

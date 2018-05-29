@@ -24,14 +24,12 @@ public class TripController {
     @RequestMapping(method = RequestMethod.GET)
     public List<TripDto> getAllTrip() {
         return applicationService.getAllTrip();
-        // return tripService.findallTrip();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public TripDto getTripById(@PathVariable("id") Long id) {
 
-       // return tripService.findTripById(id);
         return  applicationService.getTripById(id);
     }
 

@@ -11,7 +11,7 @@ public class Reservation {
     private Date dateTrip;
     private Integer numOfPeople;
     private Double price;
-    private ReservationStatus status;
+    private String status;
 
 
     public Reservation() {
@@ -72,11 +72,11 @@ public class Reservation {
         this.numOfPeople = numOfPeople;
     }
 
-    public ReservationStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(ReservationStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

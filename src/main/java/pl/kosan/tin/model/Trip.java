@@ -13,6 +13,9 @@ public class Trip {
     private String photo;
     private String miniPhoto;
     private String title;
+    private String embedMap;
+
+
 
 
     public Trip() {
@@ -96,6 +99,14 @@ public class Trip {
 
     public void setMiniPhoto(String miniPhoto) {
         this.miniPhoto = miniPhoto;
+    }
+
+    public String getEmbedMap() {
+        return embedMap;
+    }
+
+    public void setEmbedMap(String embedMap) {
+        this.embedMap = embedMap;
     }
 
     @Override

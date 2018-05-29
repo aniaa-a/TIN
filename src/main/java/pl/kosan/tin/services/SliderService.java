@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface SliderService {
 
-    void addSlider(Slider slider);
+    void addSlider(Long idTrip);
 
     void deleteSlider(Long idSlider);
 
