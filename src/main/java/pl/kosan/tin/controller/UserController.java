@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.kosan.tin.dto.UserLoginRequestDto;
 import pl.kosan.tin.dto.UserResponseDto;
 import pl.kosan.tin.model.User;
 import pl.kosan.tin.services.UserService;
@@ -41,17 +42,16 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/log/{email}/{password}", method = RequestMethod.GET)
-    public UserResponseDto logInUser(HttpServletRequest req, @PathVariable("email") String email,
-                                     @PathVariable("password") String password) {
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public UserResponseDto logInUser(HttpServletRequest req, @RequestBody UserLoginRequestDto userLoginRequestDto) {
         HttpSession session = req.getSession();
         UserResponseDto userResponseDto = new UserResponseDto();
 
-        User user = userService.findUserByMailAndPass(email, password);
+        User user = userService.findUserByMailAndPass(userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword());
 
 
         if (user != null) {
-            session.setAttribute("user", email);
+            session.setAttribute("user", userLoginRequestDto.getEmail());
            LOGGER.info("id sesji: " +session.getId() + " log: "+ session.getAttribute("user"));
 
 
