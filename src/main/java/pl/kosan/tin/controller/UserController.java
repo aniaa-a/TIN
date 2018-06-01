@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.kosan.tin.dto.UserLoginRequestDto;
 import pl.kosan.tin.dto.UserRegisterDto;
@@ -40,8 +41,8 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/isExist/{email}")
-    public UserRespDto czekUserExist(@PathVariable("email") String email) {
+    @RequestMapping(method = RequestMethod.GET, value = "/isExist")
+    public @ResponseBody UserRespDto czekUserExist(@RequestParam ("email") String email) {
         UserRespDto user = new UserRespDto();
 
         if (userService.findUserByMail(email) != null) {

@@ -4,6 +4,13 @@ public class UserRespDto {
 
     Boolean existing;
 
+    public UserRespDto() {
+    }
+
+    public UserRespDto(Boolean existing) {
+        this.existing = existing;
+    }
+
     public Boolean getExisting() {
         return existing;
     }
