@@ -107,5 +107,12 @@ public class UserController {
         session.invalidate();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public void removeUser(@PathVariable("id") Long id) {
+
+        userService.deleteUserById(id);
+    }
+
 
 }

@@ -42,5 +42,11 @@ public class StandardUserService implements UserService {
         return userDao.findUserByMail(email);
     }
 
+    @Override
+    public void deleteUserById(Long idUser){
+
+        userDao.deleteUserById(idUser);
+    }
+
 
 }

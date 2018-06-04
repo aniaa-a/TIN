@@ -28,6 +28,7 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
     private final static String FIND_USER_BY_ID = "SELECT id_user, user_name, user_surname, identity_document, email, phone, role from tin_user where id_user = :id_user";
     private final static String FIND_USER_BY_MAIL_AND_PASS = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password, role from tin_user where email = :email AND password = :password";
     private final static String FIND_USER_BY_MAIL = "SELECT id_user, user_name, user_surname, identity_document, email, phone, password, role from tin_user where email = :email";
+    private final static String DELETE_USER_BY_ID = "DELETE FROM tin_user where id_user = :id_user";
 
     @Autowired
     public void setDs(DataSource dataSource) {
@@ -63,12 +64,17 @@ public class StandardUserDao extends NamedParameterJdbcDaoSupport implements Use
     }
 
     @Override
-    public void updateUser(User user) {
-
-    }
-
-    @Override
     public void deleteUserById(Long userId) {
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("id_user", userId);
+
+        try {
+            getNamedParameterJdbcTemplate().update(DELETE_USER_BY_ID, mapSqlParameterSource);
+        } catch (DataAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
+
 
     }
 
