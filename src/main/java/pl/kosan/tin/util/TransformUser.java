@@ -11,7 +11,7 @@ public class TransformUser {
 
         User user = new User();
         user.setPassword(userRegisterDto.getPassword());
-        user.setRole(userRegisterDto.getRole());
+        user.setRole("User");
         user.setEmail(userRegisterDto.getEmail());
         user.setPhone(userRegisterDto.getPhone());
         user.setIdentityNum(userRegisterDto.getIdentityNum());

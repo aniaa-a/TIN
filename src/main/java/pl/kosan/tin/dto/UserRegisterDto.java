@@ -8,7 +8,6 @@ public class UserRegisterDto {
     private String email;
     private String phone;
     private String password;
-    private String role;
 
     public String getName() {
         return name;
@@ -58,11 +57,4 @@ public class UserRegisterDto {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
