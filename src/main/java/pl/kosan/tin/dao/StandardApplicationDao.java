@@ -24,10 +24,6 @@ public class StandardApplicationDao extends NamedParameterJdbcDaoSupport impleme
 
     private final static Logger LOGGER = LoggerFactory.getLogger(StandardApplicationDao.class);
 
-    private static final String FIND_RESERVATION_FOR_USER = "SELECT a.id_reservation, b.name + b.surname driver, c.city, d.user_name, d.user_surname, d.identity_document, d.email, d.phone, a.date_trip, a.status, c.price_person, a.num_people\n" +
-            "FROM tin_reservation a, tin_trip c, tin_carDriver b, tin_user d, tin_driver_to_car e\n" +
-            "WHERE a.id_trip = c.id_trip AND a.id_user = d.id_user AND a.id_driver_to_car = e.id_driver_to_car AND b.id_carDriver = e.id_carDriver AND d.email = :email";
-
     private static final String ADD_CAR_DRIVER = "insert into tin_driver_to_car (id_cardriver, id_car, date_trip) \n" +
             "values(:id_cardriver, :id_car, :date_trip)";
 
@@ -44,28 +40,8 @@ public class StandardApplicationDao extends NamedParameterJdbcDaoSupport impleme
 
     @Override
     public Optional<List<UserReservationRespDto>> findReservationForUser(String email) {
-   /*     SELECT a.id_reservation, b.name + b.surname driver, d.user_name, d.user_surname, d.identity_document
-        try {
-            return Optional.ofNullable(getNamedParameterJdbcTemplate().query(FIND_RESERVATION_FOR_USER,
-                    new MapSqlParameterSource(), (rs, rowNum) -> {
-                        UserReservationRespDto user = new UserReservationRespDto();
-                        user.setCity(rs.getString("city"));
-                        user.setDateTrip(rs.getDate("date_trip"));
-                        user.setMailUser(rs.getString("email"));
-                        user.setNumPeople("num_people");
-                        user.setPhoneUser(rs.getString("phone"));
-                        user.setPrice(rs.getDouble("price"));
-                        user.setStatus(rs.getString("status"));
-                        user.set
-                    }));
 
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        } catch (DataAccessException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw e;
-        }
-    */return null;
+    return null;
     }
 
 

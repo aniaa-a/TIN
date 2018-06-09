@@ -10,7 +10,6 @@ public class UserReservationRespDto {
     private Long tripId;
     private String mailUser;
     private Date dateTrip;
-    //private ReservationStatus status;
     private Double price;
     private Integer numPeople;
 

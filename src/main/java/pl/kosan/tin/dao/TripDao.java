@@ -9,7 +9,7 @@ public interface TripDao {
 
 
 
-    void insertTrip(Trip rip);
+    Long insertTrip(Trip rip);
 
     void updateTrip(Trip trip);
 
@@ -20,4 +20,7 @@ public interface TripDao {
     Trip findTripById(Long id);
 
     Optional<List<Trip>> findAllTrip();
+
+    void insertPrices(Double prices,Long idTrip);
+    void insertServices(String services,Long idTrip);
 }

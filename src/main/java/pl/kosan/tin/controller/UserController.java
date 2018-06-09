@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/isExist")
-    public @ResponseBody UserRespDto czekUserExist(@RequestParam ("email") String email) {
+    public @ResponseBody UserRespDto checkUserExist(@RequestParam ("email") String email) {
         UserRespDto user = new UserRespDto();
 
         if (userService.findUserByMail(email) != null) {

@@ -9,9 +9,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import pl.kosan.tin.model.Car;
-import pl.kosan.tin.model.CarDriver;
-import pl.kosan.tin.model.User;
-
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;

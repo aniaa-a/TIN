@@ -8,7 +8,7 @@ import pl.kosan.tin.util.Utils;
 import javax.validation.constraints.NotNull;
 import java.security.NoSuchAlgorithmException;
 @Validated
-public class User {
+public class User extends Reservation {
 
     private Long idUser;
     private String name;

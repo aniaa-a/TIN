@@ -35,7 +35,7 @@ public class TripController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    public void insertTrip(@RequestBody Trip trip) {
+    public void insertTrip(@RequestBody TripDto trip) {
 
         tripService.insertTrip(trip);
     }
